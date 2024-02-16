@@ -4,11 +4,15 @@ using UnityEngine.XR.ARFoundation;
 
 public class ARTrackedManager : MonoBehaviour
 {
+    [HideInInspector]
+    public ARPlane lastTrackedPlane;
+
     [SerializeField]
     private GameObject trackedPrefab;
 
     private ARPlaneManager planeManager;
     private GameObject chicken;
+
 
     void Awake()
     {
@@ -28,32 +32,25 @@ public class ARTrackedManager : MonoBehaviour
 
     public void OnTrackablesChanged(ARPlanesChangedEventArgs changes)
     {
-        foreach (var plane in changes.added)
+        if (changes.added.Count > 0)
         {
-            UpdatePlane(plane);
+            CreatePrefab(changes.added[0]);
+            lastTrackedPlane = changes.added[0];
         }
 
-        foreach (var plane in changes.updated)
+        if (changes.updated.Count > 0)
         {
-            // handle updated planes
-        }
-
-        foreach (var plane in changes.removed)
-        {
-            // handle removed planes
+            lastTrackedPlane = changes.updated[0];
         }
     }
 
-    private void UpdatePlane(ARPlane trackedPlane)
+    private void CreatePrefab(ARPlane trackedPlane)
     {
 
-        if (trackedPrefab != null && chicken == null)
-        {
-            Debug.Log(trackedPlane);
+        if (trackedPrefab != null && chicken != null) return;
 
-            chicken = Instantiate(trackedPrefab);
-            chicken.transform.SetPositionAndRotation(trackedPlane.transform.position, trackedPlane.transform.rotation);
-        }
+        chicken = Instantiate(trackedPrefab);
+        chicken.transform.SetPositionAndRotation(trackedPlane.transform.position, trackedPlane.transform.rotation);
 
     }
 }

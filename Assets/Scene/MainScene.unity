@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9277484ca58f34cac62f3c4ebd330e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastTrackedPlane: {fileID: 0}
   trackedPrefab: {fileID: 1311290861401530, guid: 312b31977ed9b2d48a14849ebb8c7fb3,
     type: 3}
 --- !u!1 &2057305278
