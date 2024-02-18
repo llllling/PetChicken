@@ -10,70 +10,41 @@ public enum ChickenStatus
 }
 public class ChickenController : MonoBehaviour
 {
-
     [HideInInspector]
-    public ChickenStatus status;
+    public static ChickenStatus status;
 
-    [SerializeField]
-    private float moveSpeed = 3f;
-
-    [SerializeField]
-    private float moveMinTime = 3f;
-    [SerializeField]
-    private float moveMaxTime = 5f;
-    private float moveTime;
-    private float lastTime;
-
-    private ARTrackedManager trackedManager;
-    private ChickenAnimator animator;
-
-    private bool IsEnableMove
-    {
-        get => trackedManager.lastTrackedPlane.transform.position != transform.position;
-    }
     void Start()
     {
-        moveTime = 0f;
-        lastTime = Time.time;
         status = ChickenStatus.IDLE;
-
-        animator = GetComponent<ChickenAnimator>();
-        trackedManager = GameObject.Find("XR Origin").GetComponent<ARTrackedManager>();
     }
 
     void Update()
     {
-        if (!IsEnableMove) return;
+#if UNITY_EDITOR || UNITY_STANDALONE
+        Debug.Log(Input.GetMouseButtonDown(0));
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnTouch();
+        }
 
-        //if (trackedManager.lastTrackedPlane.transform.position == transform.position)
-        //{
-        //    Debug.Log("Idle");
+#endif
 
-        //    lastTime = Time.time;
-        //    moveTime = Random.Range(moveMinTime, moveMaxTime);
-
-        //    ChangeStatus(ChickenStatus.IDLE);
-        //    return;
-        //}
-      
-        Move();
-
-        //ChickenStatus statusForMove = (ChickenStatus)Random.Range(1, 3);
-        //ChangeStatus(statusForMove);
-        //animator.ChangeAnimationByStatus(statusForMove);
+#if UNITY_ANDROID || UNITY_IOS
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                OnTouch();
+            }
+        }
+#endif
     }
 
-    private void Move()
+    private void OnTouch()
     {
-        Vector3 direction = (trackedManager.lastTrackedPlane.transform.position - transform.position).normalized;
-
-        transform.Translate(moveSpeed * Time.deltaTime * direction);
-        Debug.Log(moveSpeed * Time.deltaTime * direction + " : " + trackedManager.lastTrackedPlane.transform.position  + " / "+ transform.position);
-    }
-
-    public void ChangeStatus(ChickenStatus status)
-    {
-        this.status = status;
+        Debug.Log("터치터치");
+        GameManager.Instance.AddAffectionScore(10);
     }
 
 }
