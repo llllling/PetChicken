@@ -68,6 +68,61 @@ AR 환경에서 애완용 닭을 키우는 힐링 게임을 제작하기!
 12. 게임 설명 UI
 13. 사진 촬영 기능
     * 화면 캡처 후 사진첩에 저장되도록
-## 프로젝트하면서 고민한 점
+
+## 프로젝트하면서 고민한 점 
+* 애완닭 애니메이션이 Idle, Walk, Run, Eat, Turn Head 4가지가 있고,  Walk, Run, Eat, Turn Head 4가지 bool 타입 파라미터가 있다. 4가지 파라미터가 false일 경우 전부 Idle로 애니메이션이 전이된다. 
+    * 결론적으로 Idle로 전이하려면 => SetBool(실행되던 애니메이션의 파라미터명, false) 
+    * ChickenAnimator.cs
+    ```c#
+    /*
+    //ChickenController.cs 파일에 선언된 상태 열거형 타입
+    public enum ChickenStatus
+    {
+        IDLE,
+        WALK,
+        RUN,
+        EAT,
+        TURN_HEAD
+    }
+
+    */
+
+    public class ChickenAnimator : MonoBehaviour
+    {
+        private string currentParamter = string.Empty;
+        private Animator animator;
+
+        void Start()
+        {
+            animator = GetComponent<Animator>();
+        }
 
    
+        public void ChangeAnimationByStatus(ChickenStatus status)
+        {
+            currentParamter = GetParamterNameByStatus(status);
+            if (currentParamter == string.Empty) return;
+
+            // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
+            animator.SetBool(GetParamterNameByStatus(status), status != ChickenStatus.IDLE);
+        }
+
+        private string GetParamterNameByStatus(ChickenStatus status)
+        {
+            switch (status)
+            {
+                case ChickenStatus.WALK:
+                    return "Walk";
+                case ChickenStatus.RUN:
+                    return "Run";
+                case ChickenStatus.EAT:
+                    return "Eat";
+                case ChickenStatus.TURN_HEAD:
+                    return "Turn_Head";
+                default: //IDLE로 상태가 변경되었을 경우 직전 파라미터명 넘겨준다. 
+                    return currentParamter;
+            }
+        }
+
+    }
+    ```

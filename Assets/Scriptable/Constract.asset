@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2957c3b780d004898852e02da6a8d5, type: 3}
   m_Name: Constract
   m_EditorClassIdentifier: 
+  defaultAffectionText: "\uC560\uC815\uB3C4"
