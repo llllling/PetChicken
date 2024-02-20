@@ -27,7 +27,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text affectionScoreTxt;
-    private int affectionScore;
+
+    [HideInInspector]
+    public int affectionScore; //private로 나중에변경
     public int AffectionScore  => affectionScore;
 
 
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
     
     void SetAffectionScoreTxt()
     {
-        affectionScoreTxt.text = constract.defaultAffectionText + affectionScore.ToString();
+        affectionScoreTxt.text = Constract.defaultAffectionText + affectionScore.ToString();
     }
     void LoadAffectionScore()
     {
