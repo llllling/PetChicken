@@ -140,13 +140,13 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
         public static string defaultAffectionText = "애정도";
         public const string AFFECTION_SCORE_KEY = "Affection";
 
-        public static int level_black = 1000;
-        public static int level_purple = 2000;
-        public static int level_blue = 4000;
-        public static int level_green = 8000;
-        public static int level_yellow = 16000;
+        public static int level_white = 1000;
+        public static int level_yellow = 2000;
+        public static int level_green = 4000;
+        public static int level_blue = 8000;
+        public static int level_purple = 16000;
         public static int level_red = 32000;
-        public static int level_white = 64000;
+        public static int level_black = 64000;
         //.... 생략
 
     }
