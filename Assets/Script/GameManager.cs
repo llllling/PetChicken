@@ -30,14 +30,25 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public int affectionScore; //private로 나중에변경
-    public int AffectionScore  => affectionScore;
+    public int AffectionScore => affectionScore;
 
 
     void Awake()
     {
-        constract = AssetDatabase.LoadAssetAtPath<Constract>(Constract.PATH);
-        LoadAffectionScore();
-        SetAffectionScoreTxt();
+
+        if (instance == null)
+        {
+            instance = this;
+            constract = AssetDatabase.LoadAssetAtPath<Constract>(Constract.PATH);
+            LoadAffectionScore();
+            SetAffectionScoreTxt();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
     }
     public void AddAffectionScore(int score)
     {
@@ -52,10 +63,10 @@ public class GameManager : MonoBehaviour
         SaveAffectionScore(affectionScore);
         SetAffectionScoreTxt();
     }
-    
+
     void SetAffectionScoreTxt()
     {
-        affectionScoreTxt.text = Constract.defaultAffectionText + affectionScore.ToString();
+        affectionScoreTxt.text = affectionScore.ToString();
     }
     void LoadAffectionScore()
     {

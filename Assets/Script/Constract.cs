@@ -3,8 +3,9 @@
 public class Constract : ScriptableObject
 {
     public const string PATH = "Assets/Scriptable/Constract.asset";
+    public const string INTRO_SCENE_NAME = "IntroScene";
+    public const string MAIN_SCENE_NAME = "MainScene";
 
-    public static string defaultAffectionText = "애정도";
     public const string AFFECTION_SCORE_KEY = "Affection";
 
     public static int level_white = 1000;
