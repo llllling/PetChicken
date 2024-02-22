@@ -16,4 +16,12 @@ public class Constract : ScriptableObject
     public static int level_red = 32000;
     public static int level_black = 64000;
 
+    public static int feed_add_score = 50;
+    public static int feed_subtract_score = 1000;
+    public static int feed_cooltime_seconds = 3600;
+
+    public static int stroking_add_score = 10;
+    public static int stroking_subtract_score = 50;
+
+    public static int compliment_score = 100;
 }

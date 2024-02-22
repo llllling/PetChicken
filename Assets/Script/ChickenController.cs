@@ -1,6 +1,4 @@
 using System;
-using Unity.XR.CoreUtils;
-using UnityEditor;
 using UnityEngine;
 
 public enum ChickenStatus
@@ -9,11 +7,9 @@ public enum ChickenStatus
     WALK,
     RUN,
     EAT,
+    HUNGRY,
     TURN_HEAD
 }
-
-
-
 
 public class ChickenController : MonoBehaviour
 {
