@@ -9,7 +9,7 @@ public class MenuController : MonoBehaviour
     private GameObject menuGroup;
     void Start()
     {
-        menuGroup = GameObject.Find("Canvas").transform.Find("Menu").transform.Find("MenuGroup").gameObject;
+        menuGroup = transform.Find("MenuGroup").gameObject;
     }
 
     public void ToggleMenu()

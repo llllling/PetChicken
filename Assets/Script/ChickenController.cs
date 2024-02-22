@@ -22,6 +22,9 @@ public class ChickenController : MonoBehaviour
     private ParticleSystem.MainModule particleMain;
 
     public int affectionScore; //지워
+
+    private GameObject affectionSkill;
+    private ARCameraController cameraController;
     void Start()
     {
         status = ChickenStatus.IDLE;
@@ -31,29 +34,31 @@ public class ChickenController : MonoBehaviour
 
         chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
         ChangeChickenBodyColor(chickenColor);
+
+        affectionSkill = FindAnyObjectByType<Canvas>().transform.Find("AffectionSkills").gameObject;
+        cameraController = FindAnyObjectByType<ARCameraController>();
     }
 
     void Update()
     {
-        //#if UNITY_EDITOR || UNITY_STANDALONE
-        //        Debug.Log(Input.GetMouseButtonDown(0));
-        //        if (Input.GetMouseButtonDown(0))
-        //        {
-        //            OnTouch();
-        //        }
+#if UNITY_EDITOR || UNITY_STANDALONE
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnTouch();
+        }
 
-        //#endif
+#endif
 
-        //#if UNITY_ANDROID || UNITY_IOS
-        //        if (Input.touchCount > 0)
-        //        {
-        //            Touch touch = Input.GetTouch(0);
-        //            if (touch.phase == TouchPhase.Began)
-        //            {
-        //                OnTouch();
-        //            }
-        //        }
-        //#endif
+#if UNITY_ANDROID || UNITY_IOS
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                OnTouch();
+            }
+        }
+#endif
     }
 
     void OnValidate()
@@ -65,8 +70,8 @@ public class ChickenController : MonoBehaviour
 
     private void OnTouch()
     {
-        Debug.Log("터치터치");
-        GameManager.Instance.AddAffectionScore(10);
+        cameraController.EatMode(transform.position);
+        affectionSkill.SetActive(true);
     }
 
     private void Transformation()

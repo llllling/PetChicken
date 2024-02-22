@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AffectionSkillController : MonoBehaviour
 {
+    public  GameObject feedPrefab;
     private GameObject complimentPanel;
     private GameObject skillButtonGroup;
 
@@ -13,11 +14,21 @@ public class AffectionSkillController : MonoBehaviour
 
     void OnEnable()
     {
-        skillButtonGroup.SetActive(true);
+        if (!skillButtonGroup.activeSelf)
+        {
+            skillButtonGroup.SetActive(true);
+        }
     }
-    public void Feed()
+    public void CreateFeed()
+    {
+        Instantiate(feedPrefab, transform);
+    }
+
+    public void FeedAnimationEndEvent()
     {
         GameManager.Instance.AddAffectionScore(Constract.feed_add_score);
+        Destroy(feedPrefab);
+        gameObject.SetActive(false);
     }
 
     public void OpenComplimentPanel()
@@ -29,6 +40,7 @@ public class AffectionSkillController : MonoBehaviour
     public void CloseComplimentPanel()
     {
         complimentPanel.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void SendCompliment()

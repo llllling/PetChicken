@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9c3fb1e6eb7fc9745b3bba559360321f
+guid: cfad8ef0b5f68ac46bd02b3156b377a4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -99,5 +99,5 @@ AssetOrigin:
   productId: 199010
   packageName: Dark Theme UI
   packageVersion: 1.0
-  assetPath: Assets/Images/ButtonMediumRound.png
+  assetPath: Assets/Images/Heart.png
   uploadId: 442433

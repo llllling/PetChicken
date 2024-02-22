@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9c3fb1e6eb7fc9745b3bba559360321f
+guid: 87ea2079a91b3e74f84b5cb700abb4d6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 132, y: 132, z: 132, w: 132}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -99,5 +99,5 @@ AssetOrigin:
   productId: 199010
   packageName: Dark Theme UI
   packageVersion: 1.0
-  assetPath: Assets/Images/ButtonMediumRound.png
+  assetPath: Assets/Images/128.png
   uploadId: 442433
