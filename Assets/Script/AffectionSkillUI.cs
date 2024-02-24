@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,7 +45,13 @@ public class AffectionSkillUI : MonoBehaviour
     {
         GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
         chickenControll.affectionPrtcl.Play();
+        StartCoroutine(ComplimentAnimation());
+    }
+    private IEnumerator ComplimentAnimation()
+    {
+        chickenControll.ChangeStatus(ChickenStatus.RUN);
+        yield return new WaitForSeconds(2f);
+        chickenControll.ChangeStatus(ChickenStatus.IDLE);
         CloseComplimentPanel();
     }
-
 }

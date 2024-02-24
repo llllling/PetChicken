@@ -134,13 +134,14 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
 
     }
     ```
-* 공통적인 값을 관리하기 위해 Contract 클래스 만듬.
+* 공통적인 값을 관리하기 위해 Contract 클래스 생성.
     * 변경되지 말아야할 값들은 const로 설정.
     ```c#
     using UnityEngine;
     [CreateAssetMenu(fileName = "Constract", menuName = "Scriptable/Constract", order = 1)]
     public class Constract : ScriptableObject
     {
+        //...생략
         public const string PATH = "Assets/Scriptable/Constract.asset";
 
         public const string AFFECTION_SCORE_KEY = "Affection";
