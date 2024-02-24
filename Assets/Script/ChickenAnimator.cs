@@ -5,7 +5,7 @@ public class ChickenAnimator : MonoBehaviour
     private string currentParamter = string.Empty;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
     }

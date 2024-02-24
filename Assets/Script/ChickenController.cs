@@ -15,28 +15,31 @@ public class ChickenController : MonoBehaviour
 {
     public Renderer modelRenderer;
     [HideInInspector]
-    public static ChickenStatus status;
+    public ChickenStatus Status {
+        get;
+        private set;
+    } = ChickenStatus.IDLE;
     private ChickenColors chickenColor;
-
-    private ParticleSystem particle;
-    private ParticleSystem.MainModule particleMain;
-
-    public int affectionScore; //지워
-
+    [HideInInspector]
+    public ChickenAnimator animator;
+    [HideInInspector]
+    public ParticleSystem affectionPrtcl;
+    private ParticleSystem transformationPrtcl;
     private GameObject affectionSkill;
-    private ARCameraController cameraController;
+
+    void Awake()
+    {
+        animator = GetComponent<ChickenAnimator>();
+        affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
+        transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
+        affectionSkill = FindAnyObjectByType<Canvas>().transform.Find("AffectionSkills").gameObject;
+    }
     void Start()
     {
-        status = ChickenStatus.IDLE;
-
-        particle = transform.Find("Transformation").gameObject.GetComponent<ParticleSystem>();
-        particleMain = particle.main;
+        Status = ChickenStatus.IDLE;
 
         chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
         ChangeChickenBodyColor(chickenColor);
-
-        affectionSkill = FindAnyObjectByType<Canvas>().transform.Find("AffectionSkills").gameObject;
-        cameraController = FindAnyObjectByType<ARCameraController>();
     }
 
     void Update()
@@ -44,7 +47,7 @@ public class ChickenController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
-            OnTouch();
+            ShowAffectionSkill();
         }
 
 #endif
@@ -55,22 +58,19 @@ public class ChickenController : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
-                OnTouch();
+                ShowAffectionSkill();
             }
         }
 #endif
     }
-
-    void OnValidate()
+    public void ChangeStatus(ChickenStatus status)
     {
-        GameManager.Instance.affectionScore = affectionScore;
-        Transformation();
-        ChangeChickenBodyColor(chickenColor);
+        Status = status;
+        animator.ChangeAnimationByStatus(status);
     }
 
-    private void OnTouch()
+    private void ShowAffectionSkill()
     {
-        cameraController.EatMode(transform.position);
         affectionSkill.SetActive(true);
     }
 
@@ -78,8 +78,10 @@ public class ChickenController : MonoBehaviour
     {
 
         chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
-        particleMain.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
-        particle.Play();
+        ParticleSystem.MainModule main = transformationPrtcl.main;
+        //  main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
+        Debug.Log("transformationPrtcl :" + transformationPrtcl);
+        transformationPrtcl.Play();
 
         ChangeChickenBodyColor(chickenColor);
     }
@@ -111,6 +113,15 @@ public class ChickenController : MonoBehaviour
         };
         modelRenderer.material = newMaterial;
     }
-
-
 }
+
+// 밥먹기 
+// 치킨한테 있어야하는 것 
+// 1. 밥 먹기 시동 시 바로 할것 
+// * 밥먹는 상태로 -
+ // * 카메라 줌아웃 -
+ //2. 밥 다먹은 후 
+ // * 아이딜 상태로 -
+ // * 애정도 파티클 -
+ // * 애정도 상승 -
+ // * 카메라 원위치  -

@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
     private bool isOpenExitAlert = false;
 
     private GameObject menuGroup;
-    void Start()
+    void Awake()
     {
         menuGroup = transform.Find("MenuGroup").gameObject;
     }

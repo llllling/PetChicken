@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class ChickenMovement : MonoBehaviour
 {
-
-
     [SerializeField]
     private float moveSpeed = 0.01f;
     ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 쿨타임 최소 시간</summary>
@@ -18,29 +16,35 @@ public class ChickenMovement : MonoBehaviour
     private Transform target;
 
     private ARTrackedManager trackedManager;
-    private ChickenAnimator animator;
+
+    private ChickenController chickenController;
 
     private bool IsArrideDestination => Vector3.Distance(target.position, transform.position) < 0.01f;
 
     private bool IsResetTarget => Time.time >= lastTime + randomPosTime;
     private bool isMoving = false;
+
+    void Awake()
+    {
+        chickenController = GetComponent<ChickenController>();
+        trackedManager = GameObject.Find("XR Origin").GetComponent<ARTrackedManager>();
+    }
     void Start()
     {
         CreateRandomMoveTime();
-
-        animator = GetComponent<ChickenAnimator>();
-        trackedManager = GameObject.Find("XR Origin").GetComponent<ARTrackedManager>();
         target = trackedManager.lastTrackedPlane.transform;
     }
 
     void Update()
     {
+        if (target == null) return;
+
         if (IsArrideDestination)
         {
             // 목적지에 도착했다면 일정 시간이 지난 후 목적지 재설정.
-            if (ChickenController.status != ChickenStatus.IDLE)
+            if (chickenController.Status != ChickenStatus.IDLE)
             {
-                ChangeStatus(ChickenStatus.IDLE);
+                chickenController.ChangeStatus(ChickenStatus.IDLE);
                 isMoving = false;
 
                 Debug.Log("IDLE");
@@ -61,7 +65,7 @@ public class ChickenMovement : MonoBehaviour
         {
             ChickenStatus statusForMove = (ChickenStatus)Random.Range(1, 3);
             if (statusForMove == ChickenStatus.RUN) { moveSpeed += 0.02f; }
-            ChangeStatus(statusForMove);
+            chickenController.ChangeStatus(statusForMove);
             isMoving = true;
             Debug.Log("isMoving");
 
@@ -89,9 +93,5 @@ public class ChickenMovement : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.05f * Time.deltaTime);
     }
-    public void ChangeStatus(ChickenStatus status)
-    {
-        ChickenController.status = status;
-        animator.ChangeAnimationByStatus(status);
-    }
+
 }

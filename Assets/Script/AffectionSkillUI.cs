@@ -1,36 +1,27 @@
 using UnityEngine;
 
-public class AffectionSkillController : MonoBehaviour
+public class AffectionSkillUI : MonoBehaviour
 {
-    public  GameObject feedPrefab;
+    [SerializeField]
+    private GameObject feedPrefab;
     private GameObject complimentPanel;
     private GameObject skillButtonGroup;
 
-    void Start()
+    private ChickenController chickenControll;
+
+    void Awake()
     {
         skillButtonGroup = transform.Find("SkillButtonGroup").gameObject;
-        complimentPanel = transform.Find("Compliment").gameObject;  
+        complimentPanel = transform.Find("Compliment").gameObject;
+        chickenControll = FindAnyObjectByType<ChickenController>();
     }
 
-    void OnEnable()
-    {
-        if (!skillButtonGroup.activeSelf)
-        {
-            skillButtonGroup.SetActive(true);
-        }
-    }
     public void CreateFeed()
     {
-        Instantiate(feedPrefab, transform);
-    }
-
-    public void FeedAnimationEndEvent()
-    {
-        GameManager.Instance.AddAffectionScore(Constract.feed_add_score);
-        Destroy(feedPrefab);
+        Instantiate(feedPrefab, chickenControll.transform.position + new Vector3(-2f, 0, 0) , Quaternion.identity);
         gameObject.SetActive(false);
     }
-
+   
     public void OpenComplimentPanel()
     {
         skillButtonGroup.SetActive(false);
