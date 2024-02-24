@@ -21,7 +21,7 @@ public class FeedSkill : MonoBehaviour
     void OnDestroy()
     {
         chickenControll.affectionPrtcl.Play();
-        GameManager.Instance.AddAffectionScore(Constract.feed_add_score);
+        GameManager.Instance.AddAffectionScore(Constract.Instance.feed_add_score);
     }
     public void FeedAnimationEndEvent()
     {

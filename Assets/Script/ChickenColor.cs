@@ -30,12 +30,12 @@ public static class ChickenColor
     {
         return affection switch
         {
-            int n when (n <= Constract.level_white) => ChickenColors.WHITE,
-            int n when (n <= Constract.level_yellow) => ChickenColors.YELLOW,
-            int n when (n <= Constract.level_green) => ChickenColors.GREEN,
-            int n when (n <= Constract.level_blue) => ChickenColors.BLUE,
-            int n when (n <= Constract.level_purple) => ChickenColors.PURPLE,
-            int n when (n <= Constract.level_red) => ChickenColors.RED,
+            int n when (n <= Constract.Instance.level_white) => ChickenColors.WHITE,
+            int n when (n <= Constract.Instance.level_yellow) => ChickenColors.YELLOW,
+            int n when (n <= Constract.Instance.level_green) => ChickenColors.GREEN,
+            int n when (n <= Constract.Instance.level_blue) => ChickenColors.BLUE,
+            int n when (n <= Constract.Instance.level_purple) => ChickenColors.PURPLE,
+            int n when (n <= Constract.Instance.level_red) => ChickenColors.RED,
             _ => ChickenColors.BLACK,
         };
     }
@@ -47,13 +47,13 @@ public static class ChickenColor
     {
         return chickenColor switch
         {
-            ChickenColors.WHITE => Constract.level_white,
-            ChickenColors.YELLOW => Constract.level_yellow,
-            ChickenColors.GREEN => Constract.level_green,
-            ChickenColors.BLUE => Constract.level_blue,
-            ChickenColors.PURPLE => Constract.level_purple,
-            ChickenColors.RED => Constract.level_red,
-            _ => Constract.level_black,
+            ChickenColors.WHITE => Constract.Instance.level_white,
+            ChickenColors.YELLOW => Constract.Instance.level_yellow,
+            ChickenColors.GREEN => Constract.Instance.level_green,
+            ChickenColors.BLUE => Constract.Instance.level_blue,
+            ChickenColors.PURPLE => Constract.Instance.level_purple,
+            ChickenColors.RED => Constract.Instance.level_red,
+            _ => Constract.Instance.level_black,
         };
     }
 

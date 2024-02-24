@@ -114,14 +114,3 @@ public class ChickenController : MonoBehaviour
         modelRenderer.material = newMaterial;
     }
 }
-
-// 밥먹기 
-// 치킨한테 있어야하는 것 
-// 1. 밥 먹기 시동 시 바로 할것 
-// * 밥먹는 상태로 -
- // * 카메라 줌아웃 -
- //2. 밥 다먹은 후 
- // * 아이딜 상태로 -
- // * 애정도 파티클 -
- // * 애정도 상승 -
- // * 카메라 원위치  -

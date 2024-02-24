@@ -135,7 +135,6 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
     }
     ```
 * 공통적인 값을 관리하기 위해 Contract 클래스 만듬.
-    * 인스펙터 창에서 변경할 수 있는 값들은 static으로 설정.
     * 변경되지 말아야할 값들은 const로 설정.
     ```c#
     using UnityEngine;
@@ -144,16 +143,15 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
     {
         public const string PATH = "Assets/Scriptable/Constract.asset";
 
-        public static string defaultAffectionText = "애정도";
         public const string AFFECTION_SCORE_KEY = "Affection";
 
-        public static int level_white = 1000;
-        public static int level_yellow = 2000;
-        public static int level_green = 4000;
-        public static int level_blue = 8000;
-        public static int level_purple = 16000;
-        public static int level_red = 32000;
-        public static int level_black = 64000;
+        public int level_white = 1000;
+        public int level_yellow = 2000;
+        public int level_green = 4000;
+        public int level_blue = 8000;
+        public int level_purple = 16000;
+        public int level_red = 32000;
+        public int level_black = 64000;
         //.... 생략
 
     }

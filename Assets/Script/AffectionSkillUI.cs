@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AffectionSkillUI : MonoBehaviour
 {
@@ -16,6 +18,7 @@ public class AffectionSkillUI : MonoBehaviour
         chickenControll = FindAnyObjectByType<ChickenController>();
     }
 
+
     public void CreateFeed()
     {
         Instantiate(feedPrefab, chickenControll.transform.position + new Vector3(-2f, 0, 0) , Quaternion.identity);
@@ -30,13 +33,17 @@ public class AffectionSkillUI : MonoBehaviour
 
     public void CloseComplimentPanel()
     {
+        complimentPanel.transform.Find("ComplimentInput").GetComponent<TMP_InputField>().text = "";
         complimentPanel.SetActive(false);
+       
+        skillButtonGroup.SetActive(true);
         gameObject.SetActive(false);
     }
 
     public void SendCompliment()
     {
-        GameManager.Instance.AddAffectionScore(Constract.compliment_score);
+        GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
+        chickenControll.affectionPrtcl.Play();
         CloseComplimentPanel();
     }
 
