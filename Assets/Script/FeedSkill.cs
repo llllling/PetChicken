@@ -13,7 +13,7 @@ public class FeedSkill : MonoBehaviour
     void Start()
     {
        // CameraEatMode();
-        chickenControll.ChangeStatus(ChickenStatus.EAT);
+        chickenControll.ChangeAnimation(ChickenAnimation.EAT);
         transform.position = chickenControll.transform.position  + new Vector3(-0.24f, 0, 0);
     }
 
@@ -24,7 +24,7 @@ public class FeedSkill : MonoBehaviour
     }
     public void FeedAnimationEndEvent()
     {
-        chickenControll.ChangeStatus(ChickenStatus.IDLE);
+        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
      
        // cameraOffset.transform.position = Vector3.zero;
         Destroy(gameObject);

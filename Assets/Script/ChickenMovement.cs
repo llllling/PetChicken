@@ -42,9 +42,9 @@ public class ChickenMovement : MonoBehaviour
         if (IsArrideDestination)
         {
             // 목적지에 도착했다면 일정 시간이 지난 후 목적지 재설정.
-            if (chickenController.Status != ChickenStatus.IDLE)
+            if (chickenController.CurrentAnimation != ChickenAnimation.IDLE)
             {
-                chickenController.ChangeStatus(ChickenStatus.IDLE);
+                chickenController.ChangeAnimation(ChickenAnimation.IDLE);
                 isMoving = false;
 
                 Debug.Log("IDLE");
@@ -63,9 +63,9 @@ public class ChickenMovement : MonoBehaviour
         Move();
         if (!isMoving)
         {
-            ChickenStatus statusForMove = (ChickenStatus)Random.Range(1, 3);
-            if (statusForMove == ChickenStatus.RUN) { moveSpeed += 0.02f; }
-            chickenController.ChangeStatus(statusForMove);
+            ChickenAnimation animationForMove = (ChickenAnimation)Random.Range(1, 3);
+            if (animationForMove == ChickenAnimation.RUN) { moveSpeed += 0.02f; }
+            chickenController.ChangeAnimation(animationForMove);
             isMoving = true;
             Debug.Log("isMoving");
 

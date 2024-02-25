@@ -1557,6 +1557,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff7c878846834348b714c6290b840ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alertPrefab: {fileID: 3493617939417287849, guid: c141e2e3585bb4744bb903a554517d72,
+    type: 3}
   feedPrefab: {fileID: 7449798785320270105, guid: e08dd607d8015454fa1a51da1811d958,
     type: 3}
 --- !u!1 &926755690

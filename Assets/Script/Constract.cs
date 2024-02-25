@@ -30,12 +30,14 @@ public class Constract : ScriptableObject
 
     public int feed_add_score = 50;
     public int feed_subtract_score = 1000;
-    public int feed_cooltime_seconds = 3600;
+    public int feed_cooltime_seconds = 14400;
 
     public int stroking_add_score = 10;
     public int stroking_subtract_score = 50;
+    public int stroking_cooltime_seconds = 1800;
 
     public int compliment_score = 100;
+    public int compliment_cooltime_seconds = 14400;
 
     void Awake()
     {

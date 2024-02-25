@@ -54,7 +54,6 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
     * 쿨타임 체크
 8. 칭찬 하기
     * 칭찬 입력 UI 생성
-    * 이펙트 효과
     * 애완닭 칭찬받고 기분좋아서 뛰어다니는 애니메이션
     * 애정도 증가/ 애정도 상승 이펙트 효과
     * 쿨타임 체크
@@ -83,8 +82,8 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
     * ChickenAnimator.cs
     ```c#
     /*
-    //ChickenController.cs 파일에 선언된 상태 열거형 타입
-    public enum ChickenStatus
+   
+    public enum ChickenAnimation
     {
         IDLE,
         WALK,
@@ -92,44 +91,37 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
         EAT,
         TURN_HEAD
     }
-
-    */
-
-    public class ChickenAnimator : MonoBehaviour
+    public class ChickenAnimatorController : MonoBehaviour
     {
         private string currentParamter = string.Empty;
         private Animator animator;
 
-        void Start()
+        void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
    
-        public void ChangeAnimationByStatus(ChickenStatus status)
+        public void OnAnimation(ChickenAnimation currentAnimation)
         {
-            currentParamter = GetParamterNameByStatus(status);
+            currentParamter = GetParamterNameByAnimation(currentAnimation);
             if (currentParamter == string.Empty) return;
 
             // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
-            animator.SetBool(GetParamterNameByStatus(status), status != ChickenStatus.IDLE);
+            animator.SetBool(GetParamterNameByAnimation(currentAnimation), currentAnimation != ChickenAnimation.IDLE);
         }
 
-        private string GetParamterNameByStatus(ChickenStatus status)
+        private string GetParamterNameByAnimation(ChickenAnimation currentAnimation)
         {
-            switch (status)
+            return currentAnimation switch
             {
-                case ChickenStatus.WALK:
-                    return "Walk";
-                case ChickenStatus.RUN:
-                    return "Run";
-                case ChickenStatus.EAT:
-                    return "Eat";
-                case ChickenStatus.TURN_HEAD:
-                    return "Turn_Head";
-                default: //IDLE로 상태가 변경되었을 경우 직전 파라미터명 넘겨준다. 
-                    return currentParamter;
-            }
+                ChickenAnimation.WALK => "Walk",
+                ChickenAnimation.RUN => "Run",
+                ChickenAnimation.EAT => "Eat",
+                ChickenAnimation.TURN_HEAD => "Turn_Head",
+                //IDLE로 상태가 변경되었을 경우 직전 파라미터명 넘겨준다. 
+                _ => currentParamter,
+            };
         }
 
     }

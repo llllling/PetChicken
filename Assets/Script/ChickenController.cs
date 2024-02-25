@@ -1,27 +1,17 @@
 using System;
 using UnityEngine;
 
-public enum ChickenStatus
-{
-    IDLE,
-    WALK,
-    RUN,
-    EAT,
-    HUNGRY,
-    TURN_HEAD
-}
-
 public class ChickenController : MonoBehaviour
 {
     public Renderer modelRenderer;
     [HideInInspector]
-    public ChickenStatus Status {
+    public ChickenAnimation CurrentAnimation {
         get;
         private set;
-    } = ChickenStatus.IDLE;
+    } = ChickenAnimation.IDLE;
     private ChickenColors chickenColor;
     [HideInInspector]
-    public ChickenAnimator animator;
+    public ChickenAnimatorController animationController;
     [HideInInspector]
     public ParticleSystem affectionPrtcl;
     private ParticleSystem transformationPrtcl;
@@ -29,14 +19,14 @@ public class ChickenController : MonoBehaviour
 
     void Awake()
     {
-        animator = GetComponent<ChickenAnimator>();
+        animationController = GetComponent<ChickenAnimatorController>();
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
         affectionSkill = FindAnyObjectByType<Canvas>().transform.Find("AffectionSkills").gameObject;
     }
     void Start()
     {
-        Status = ChickenStatus.IDLE;
+        CurrentAnimation = ChickenAnimation.IDLE;
 
         chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
         ChangeChickenBodyColor(chickenColor);
@@ -63,10 +53,10 @@ public class ChickenController : MonoBehaviour
         }
 #endif
     }
-    public void ChangeStatus(ChickenStatus status)
+    public void ChangeAnimation(ChickenAnimation animation)
     {
-        Status = status;
-        animator.ChangeAnimationByStatus(status);
+        CurrentAnimation = animation;
+        animationController.OnAnimation(animation);
     }
 
     private void ShowAffectionSkill()
