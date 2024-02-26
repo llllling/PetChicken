@@ -3117,7 +3117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastTrackedPlane: {fileID: 0}
-  trackedPrefab: {fileID: 5471380597481360824, guid: 04ee9e36cb5259745bcc3a9b59931a45,
+  trackedPrefab: {fileID: 1062299105608449607, guid: 767db6d8bdfe5bd4ab144a2a2e17ecc0,
     type: 3}
 --- !u!1 &1978215754
 GameObject:

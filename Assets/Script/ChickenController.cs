@@ -16,7 +16,7 @@ public class ChickenController : MonoBehaviour
     public ParticleSystem affectionPrtcl;
     private ParticleSystem transformationPrtcl;
     private GameObject affectionSkill;
-
+    private bool isShowSkillUI = false;
     void Awake()
     {
         animationController = GetComponent<ChickenAnimatorController>();
@@ -35,9 +35,9 @@ public class ChickenController : MonoBehaviour
     void Update()
     {
 #if UNITY_EDITOR || UNITY_STANDALONE
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
         {
-            ShowAffectionSkill();
+            ToggleAffectionSkill();
         }
 
 #endif
@@ -46,9 +46,9 @@ public class ChickenController : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began && IsChickenTouch(touch.position))
             {
-                ShowAffectionSkill();
+                ToggleAffectionSkill();
             }
         }
 #endif
@@ -59,9 +59,20 @@ public class ChickenController : MonoBehaviour
         animationController.OnAnimation(animation);
     }
 
-    private void ShowAffectionSkill()
+    private bool IsChickenTouch(Vector3 touchPos)
     {
-        affectionSkill.SetActive(true);
+        Ray ray = Camera.main.ScreenPointToRay(touchPos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            return hit.collider.gameObject == gameObject;
+        }
+        return false;
+    }
+    private void ToggleAffectionSkill()
+    {
+        isShowSkillUI = !isShowSkillUI;
+        affectionSkill.SetActive(isShowSkillUI);
     }
 
     private void Transformation()
