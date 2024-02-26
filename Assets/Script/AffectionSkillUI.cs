@@ -37,11 +37,11 @@ public class AffectionSkillUI : MonoBehaviour
    
     public void OpenComplimentPanel()
     {
-        if (!CoolTimeController.IsUseSkill(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
-        {
-            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
-            return;
-        }
+        //if (!CoolTimeController.IsUseSkill(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
+        //{
+        //    OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
+        //    return;
+        //}
 
         skillButtonGroup.SetActive(false);
         complimentPanel.SetActive(true);
@@ -61,8 +61,6 @@ public class AffectionSkillUI : MonoBehaviour
         
         CoolTimeController.SaveCoolTime(Constract.COMPLIMENT_COOLTIME_KEY);
         StartCoroutine(ComplimentAnimation());
-
-        gameObject.SetActive(false);
     }
     private void ClearCompliment()
     {
@@ -76,7 +74,8 @@ public class AffectionSkillUI : MonoBehaviour
         chickenControll.ChangeAnimation(ChickenAnimation.RUN);
         yield return new WaitForSeconds(2f);
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
-       
+
+        gameObject.SetActive(false);
     }
 
     private void OpenCoolTimeAlert(string message)
