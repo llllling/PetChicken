@@ -4,23 +4,8 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     private static UIManager instance;
-    public static UIManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindFirstObjectByType<UIManager>();
-
-                if (instance == null)
-                {
-                    GameObject managerObject = new("UIManager");
-                    instance = managerObject.AddComponent<UIManager>();
-                }
-            }
-            return instance;
-        }
-    }
+    public static UIManager Instance => instance;
+  
     [HideInInspector]
     public bool isTurnOnSound = true;
     void Awake()

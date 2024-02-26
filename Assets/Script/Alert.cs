@@ -3,20 +3,33 @@ using UnityEngine;
 
 public class Alert : MonoBehaviour
 {
-    private TMP_Text textComponent;
+    [SerializeField]
+    private TMP_Text tmpText;
+    private static Alert instance;
 
-    void Start()
+
+    void Awake()
     {
-        textComponent = transform.Find("Text").GetComponent<TMP_Text>(); 
-    }
-    public void Close()
-    {
-        Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void OpenAlert(string message)
+
+    public static void Hide()
     {
-        textComponent.text = message;
-        gameObject.SetActive(true);
+        instance.tmpText.text = "";
+        instance.gameObject.SetActive(false);
+    }
+
+    public static void Show(string message)
+    {
+        FindAnyObjectByType<Canvas>().transform.Find("Alert").gameObject.SetActive(true);
+        instance.tmpText.text = message;
     }
 }

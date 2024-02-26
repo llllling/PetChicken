@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AffectionSkillUI : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject alertPrefab;
+  
     [SerializeField]
     private GameObject feedPrefab;
     
@@ -13,7 +12,9 @@ public class AffectionSkillUI : MonoBehaviour
     private GameObject skillButtonGroup;
 
     private ChickenController chickenControll;
-   
+
+    private const string DEFAULT_COOLTIME_MESSAGE = " 뒤에 \n사용이 가능합니다.";
+
     void Awake()
     {
         skillButtonGroup = transform.Find("SkillButtonGroup").gameObject;
@@ -24,9 +25,9 @@ public class AffectionSkillUI : MonoBehaviour
 
     public void CreateFeed()
     {
-        if (Constract.Instance.feed_cooltime_seconds <= 0)
+        if (!CoolTimeController.IsUseSkill(Constract.FEED_COOLTIME_KEY,Constract.Instance.feed_cooltime_seconds))
         {
-            OpenCoolTimeAlert("");
+            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
@@ -36,9 +37,9 @@ public class AffectionSkillUI : MonoBehaviour
    
     public void OpenComplimentPanel()
     {
-        if (Constract.Instance.compliment_cooltime_seconds <= 0)
+        if (!CoolTimeController.IsUseSkill(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
         {
-            OpenCoolTimeAlert("");
+            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
@@ -48,30 +49,39 @@ public class AffectionSkillUI : MonoBehaviour
 
     public void CloseComplimentPanel()
     {
-        complimentPanel.transform.Find("ComplimentInput").GetComponent<TMP_InputField>().text = "";
-        complimentPanel.SetActive(false);
-       
-        skillButtonGroup.SetActive(true);
+        ClearCompliment();
         gameObject.SetActive(false);
     }
 
     public void SendCompliment()
     {
+        ClearCompliment();
         GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
         chickenControll.affectionPrtcl.Play();
+        
+        CoolTimeController.SaveCoolTime(Constract.COMPLIMENT_COOLTIME_KEY);
         StartCoroutine(ComplimentAnimation());
+
+        gameObject.SetActive(false);
+    }
+    private void ClearCompliment()
+    {
+        complimentPanel.transform.Find("ComplimentInput").GetComponent<TMP_InputField>().text = "";
+        complimentPanel.SetActive(false);
+
+        skillButtonGroup.SetActive(true);
     }
     private IEnumerator ComplimentAnimation()
     {
         chickenControll.ChangeAnimation(ChickenAnimation.RUN);
         yield return new WaitForSeconds(2f);
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
-        CloseComplimentPanel();
+       
     }
 
     private void OpenCoolTimeAlert(string message)
     {
-        alertPrefab.transform.Find("Text").GetComponent<TMP_Text>().text = message;
-        Instantiate(alertPrefab);
+        Alert.Show(message);
+        gameObject.SetActive(false);
     }
 }

@@ -3,40 +3,41 @@ using UnityEngine;
 
 public class CoolTimeController : MonoBehaviour
 {
-    private DateTime feedCoolTime;
-    private DateTime complimentCoolTime;
-    private DateTime strokingCoolTime;
+    private const string DATE_FORMAT = "yyyyMMdd HH:mm:ss";
 
-    public DateTime FeedCoolTime
+    public static void SaveCoolTime(string key)
     {
-        get => feedCoolTime;
-        set => feedCoolTime = value;
-    }
-    public DateTime ComplimentCoolTime
-    {
-        get => complimentCoolTime;
-        set => complimentCoolTime = value;
-    }
-    public DateTime StrokingCoolTime
-    {
-        get => strokingCoolTime;
-        set => strokingCoolTime = value;
+        PlayerPrefs.SetString(key, DateTime.Now.ToString(DATE_FORMAT));
     }
 
-    //public bool IsUseFeedSkill
-    //{
-    //    get => CheckUseSkill();
-    //}
+    public static bool IsUseSkill(string key, int coolTimeSeconds)
+    {
+        if (!PlayerPrefs.HasKey(key)) return true;
 
-    //private bool CheckUseSkill()
-    //{
+        DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+        return (DateTime.Now - savedTime).TotalSeconds >= coolTimeSeconds;
 
-    //}
+    }
 
+    public static string GetRemainedCoolTime(string key, int coolTimeSeconds)
+    {
+        if (!PlayerPrefs.HasKey(key)) return "";
+
+        DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+        return GetFormattedDifference((TimeSpan.FromSeconds(coolTimeSeconds) - (DateTime.Now - savedTime)));
+    }
+
+    private static DateTime StringToDateTime(string str)
+    {
+        return DateTime.ParseExact(str, DATE_FORMAT, null);
+
+    }
+    private static string GetFormattedDifference(TimeSpan difference)
+    {
+        if (difference.TotalHours >= 1)
+        {
+            return $"{difference.Hours:00}:{difference.Minutes:00}:{difference.Seconds:00}";
+        }
+        return $"{difference.Minutes:00}:{difference.Seconds:00}";
+    }
 }
-
-
-//스킬 발동이 끝난 후 부터 쿨타임 체크해야함.
-// 끝난 후의 시간을 바로 저장. 
-// 클릭 할 때마다 끝난 후 쿨타임에서 저장된 쿨타임만큼 지낫는지 체크해서
-//발동할지 말지 결정되도록.

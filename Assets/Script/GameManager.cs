@@ -76,7 +76,6 @@ public class GameManager : MonoBehaviour
     void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
-        PlayerPrefs.Save();
     }
 
     void ResetAffectionScore()
