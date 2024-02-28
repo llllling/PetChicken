@@ -25,23 +25,23 @@ public class AffectionSkillUI : MonoBehaviour
 
     public void CreateFeed()
     {
-        if (!CoolTimeController.IsUseSkill(Constract.FEED_COOLTIME_KEY,Constract.Instance.feed_cooltime_seconds))
+        if (!CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY,Constract.Instance.feed_cooltime_seconds))
         {
             OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
-
+        chickenControll.DestroyHungryChat();
         Instantiate(feedPrefab, chickenControll.transform.position + new Vector3(-2f, 0, 0) , Quaternion.identity);
         gameObject.SetActive(false);
     }
    
     public void OpenComplimentPanel()
     {
-        //if (!CoolTimeController.IsUseSkill(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
-        //{
-        //    OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
-        //    return;
-        //}
+        if (!CoolTimeController.CheckCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
+        {
+            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
+            return;
+        }
 
         skillButtonGroup.SetActive(false);
         complimentPanel.SetActive(true);

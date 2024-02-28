@@ -26,7 +26,6 @@ public class FeedSkill : MonoBehaviour
     {
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
         CoolTimeController.SaveCoolTime(Constract.FEED_COOLTIME_KEY);
-
         // cameraOffset.transform.position = Vector3.zero;
         Destroy(gameObject);
     }

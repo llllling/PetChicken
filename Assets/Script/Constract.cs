@@ -43,5 +43,6 @@ public class Constract : ScriptableObject
     public int compliment_cooltime_seconds = 14400;
     public const string COMPLIMENT_COOLTIME_KEY = "COMPLIMENTCOOLTIME";
 
+    public int hungry_cooltime_seconds = 43200; //12시간
 
 }

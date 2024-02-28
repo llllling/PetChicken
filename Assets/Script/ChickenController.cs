@@ -4,19 +4,30 @@ using UnityEngine;
 public class ChickenController : MonoBehaviour
 {
     public Renderer modelRenderer;
+
+
     [HideInInspector]
-    public ChickenAnimation CurrentAnimation {
+    public ChickenAnimatorController animationController;
+
+    [HideInInspector]
+    public ParticleSystem affectionPrtcl;
+    private GameObject affectionSkill;
+    private bool isShowSkillUI = false;
+
+    [SerializeField]
+    private GameObject hungryPrefab;
+    private GameObject hungryChat;
+
+    private ParticleSystem transformationPrtcl;
+    private ChickenColors chickenColor;
+
+    public ChickenAnimation CurrentAnimation
+    {
         get;
         private set;
     } = ChickenAnimation.IDLE;
-    private ChickenColors chickenColor;
-    [HideInInspector]
-    public ChickenAnimatorController animationController;
-    [HideInInspector]
-    public ParticleSystem affectionPrtcl;
-    private ParticleSystem transformationPrtcl;
-    private GameObject affectionSkill;
-    private bool isShowSkillUI = false;
+    //private bool IsShowHungryChat => CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds, false) && hungryChat == null;
+    private bool IsShowHungryChat => hungryChat == null;
     void Awake()
     {
         animationController = GetComponent<ChickenAnimatorController>();
@@ -34,8 +45,13 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
+        if (IsShowHungryChat)
+        {
+            CreateHungryChat();
+        }
+      
 #if UNITY_EDITOR || UNITY_STANDALONE
-        if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
+            if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
         {
             ToggleAffectionSkill();
         }
@@ -113,5 +129,16 @@ public class ChickenController : MonoBehaviour
             color = middleColor
         };
         modelRenderer.material = newMaterial;
+    }
+
+    private void CreateHungryChat()
+    {
+
+        hungryChat = Instantiate(hungryPrefab, transform.position, Quaternion.identity, transform);
+        hungryChat.transform.localPosition = new Vector3(0f, 2f, 0f);
+    }
+    public void DestroyHungryChat()
+    {
+        Destroy(hungryChat);
     }
 }

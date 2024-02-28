@@ -112,6 +112,8 @@ MonoBehaviour:
   modelRenderer: {fileID: 1180431963785812490}
   animationController: {fileID: 0}
   affectionPrtcl: {fileID: 0}
+  hungryPrefab: {fileID: 2294259248044468597, guid: caeac938fd11dd944ad2996073b50522,
+    type: 3}
 --- !u!114 &2443682278648774875
 MonoBehaviour:
   m_ObjectHideFlags: 0

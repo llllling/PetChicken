@@ -10,9 +10,15 @@ public class CoolTimeController : MonoBehaviour
         PlayerPrefs.SetString(key, DateTime.Now.ToString(DATE_FORMAT));
     }
 
-    public static bool IsUseSkill(string key, int coolTimeSeconds)
+    /// <summary>
+    /// 현재 시간과 저장된 시간을 비교하여 쿨타임 시간이 지났는지 여부를 판단하는 함수(쿨타임 지났다면 true, 아니면 false 반환)
+    /// </summary>
+    /// <param name="key">저장된 시간 key</param>
+    /// <param name="coolTimeSeconds">비교할 쿨타임 시간 초</param>
+    /// <param name="defaultValue">저장된 시간이 없는 경우 반환할 값</param>
+    public static bool CheckCoolTime(string key, int coolTimeSeconds, bool defaultValue = true)
     {
-        if (!PlayerPrefs.HasKey(key)) return true;
+        if (!PlayerPrefs.HasKey(key)) return defaultValue;
 
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
         return (DateTime.Now - savedTime).TotalSeconds >= coolTimeSeconds;
