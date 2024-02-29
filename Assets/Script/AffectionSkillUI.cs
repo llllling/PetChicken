@@ -15,6 +15,8 @@ public class AffectionSkillUI : MonoBehaviour
 
     private const string DEFAULT_COOLTIME_MESSAGE = " 뒤에 \n사용이 가능합니다.";
 
+
+
     void Awake()
     {
         skillButtonGroup = transform.Find("SkillButtonGroup").gameObject;
@@ -58,10 +60,11 @@ public class AffectionSkillUI : MonoBehaviour
         ClearCompliment();
         GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
         chickenControll.affectionPrtcl.Play();
-        
+
         CoolTimeController.SaveCoolTime(Constract.COMPLIMENT_COOLTIME_KEY);
         StartCoroutine(ComplimentAnimation());
     }
+
     private void ClearCompliment()
     {
         complimentPanel.transform.Find("ComplimentInput").GetComponent<TMP_InputField>().text = "";
@@ -74,7 +77,10 @@ public class AffectionSkillUI : MonoBehaviour
         chickenControll.ChangeAnimation(ChickenAnimation.RUN);
         yield return new WaitForSeconds(2f);
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
-
+        if (chickenControll.IsLevelUP)
+        {
+            chickenControll.LevelUP();
+        }
         gameObject.SetActive(false);
     }
 
@@ -83,4 +89,5 @@ public class AffectionSkillUI : MonoBehaviour
         Alert.Show(message);
         gameObject.SetActive(false);
     }
+
 }

@@ -32,7 +32,6 @@ public class GameManager : MonoBehaviour
     public int affectionScore; //private로 나중에변경
     public int AffectionScore => affectionScore;
 
-
     void Awake()
     {
 
@@ -64,21 +63,21 @@ public class GameManager : MonoBehaviour
         SetAffectionScoreTxt();
     }
 
-    void SetAffectionScoreTxt()
+    private void SetAffectionScoreTxt()
     {
         affectionScoreTxt.text = affectionScore.ToString();
     }
-    void LoadAffectionScore()
+    public void LoadAffectionScore()
     {
         affectionScore = PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY);
         SetAffectionScoreTxt();
     }
-    void SaveAffectionScore(int affectionScore)
+    private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
     }
 
-    void ResetAffectionScore()
+    private void ResetAffectionScore()
     {
         SaveAffectionScore(0);
     }

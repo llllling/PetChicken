@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ChickenController : MonoBehaviour
@@ -19,15 +20,25 @@ public class ChickenController : MonoBehaviour
     private GameObject hungryChat;
 
     private ParticleSystem transformationPrtcl;
-    private ChickenColors chickenColor;
+    public ChickenColors chickenColor;
+    //private bool IsShowHungryChat => CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds, false) && hungryChat == null;
+    private bool IsShowHungryChat => hungryChat == null;
 
     public ChickenAnimation CurrentAnimation
     {
         get;
         private set;
     } = ChickenAnimation.IDLE;
-    //private bool IsShowHungryChat => CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds, false) && hungryChat == null;
-    private bool IsShowHungryChat => hungryChat == null;
+
+    public bool IsLevelUP
+    {
+        get
+        {
+            ChickenColors newColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.affectionScore);
+            return chickenColor != newColor;
+        }
+    }
+
     void Awake()
     {
         animationController = GetComponent<ChickenAnimatorController>();
@@ -74,7 +85,25 @@ public class ChickenController : MonoBehaviour
         CurrentAnimation = animation;
         animationController.OnAnimation(animation);
     }
+   
 
+
+    public void LevelUP()
+    {
+        StartCoroutine(Transformation());
+    }
+
+    private IEnumerator Transformation()
+    {
+        ChickenColors chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.affectionScore);
+        ParticleSystem.MainModule main = transformationPrtcl.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
+        transformationPrtcl.Play();
+
+        yield return new WaitForSeconds(main.duration);
+
+        ChangeChickenBodyColor(chickenColor);
+    }
     private bool IsChickenTouch(Vector3 touchPos)
     {
         Ray ray = Camera.main.ScreenPointToRay(touchPos);
@@ -91,22 +120,12 @@ public class ChickenController : MonoBehaviour
         affectionSkill.SetActive(isShowSkillUI);
     }
 
-    private void Transformation()
-    {
 
-        chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
-        ParticleSystem.MainModule main = transformationPrtcl.main;
-        //  main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
-        Debug.Log("transformationPrtcl :" + transformationPrtcl);
-        transformationPrtcl.Play();
-
-        ChangeChickenBodyColor(chickenColor);
-    }
 
     /// <summary>
     /// 애완닭의 몸통색을 레벨에 맞게 변환시키는 함수로 레벨 1이상이면 이전 레벨과 다음 레벨 사이의 중간색으로 몸통색을 변환 시키는 함수
     /// </summary>
-    private void ChangeChickenBodyColor(ChickenColors chickenColor)
+    public void ChangeChickenBodyColor(ChickenColors chickenColor)
     {
 
         Color endColor = ChickenColor.ColorByChickenColors(chickenColor);

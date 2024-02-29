@@ -24,6 +24,10 @@ public class FeedSkill : MonoBehaviour
     }
     public void FeedAnimationEndEvent()
     {
+        if (chickenControll.IsLevelUP)
+        {
+            chickenControll.LevelUP();
+        }
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
         CoolTimeController.SaveCoolTime(Constract.FEED_COOLTIME_KEY);
         // cameraOffset.transform.position = Vector3.zero;
