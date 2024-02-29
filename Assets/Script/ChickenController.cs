@@ -34,7 +34,7 @@ public class ChickenController : MonoBehaviour
     {
         get
         {
-            ChickenColors newColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.affectionScore);
+            ChickenColors newColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
             return chickenColor != newColor;
         }
     }
@@ -95,7 +95,7 @@ public class ChickenController : MonoBehaviour
 
     private IEnumerator Transformation()
     {
-        ChickenColors chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.affectionScore);
+        ChickenColors chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
         ParticleSystem.MainModule main = transformationPrtcl.main;
         main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
         transformationPrtcl.Play();

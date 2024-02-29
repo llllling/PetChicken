@@ -1093,53 +1093,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428990437}
   m_CullTransparentMesh: 1
---- !u!1 &434329071
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 434329073}
-  - component: {fileID: 434329072}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &434329072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434329071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 292754e2ebf59cd499bc5afda07cef7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  constract: {fileID: 0}
-  affectionScoreTxt: {fileID: 722164894}
-  affectionScore: 0
---- !u!4 &434329073
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434329071}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.952181, y: 0.9074293, z: 1.7075218}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &439218842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1765,6 +1718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 700752950}
+  - component: {fileID: 700752952}
   m_Layer: 5
   m_Name: Affection
   m_TagString: Untagged
@@ -1793,6 +1747,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 1, y: 1}
+--- !u!114 &700752952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700752949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3803b909eb1508e47a50eb3655103415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &702413256
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,8 +3785,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constract: {fileID: 0}
-  affectionScoreTxt: {fileID: 722164894}
-  affectionScore: 0
 --- !u!4 &1834754768
 Transform:
   m_ObjectHideFlags: 0
@@ -4507,6 +4471,5 @@ SceneRoots:
   - {fileID: 1075000276}
   - {fileID: 702413259}
   - {fileID: 1909863728}
-  - {fileID: 434329073}
   - {fileID: 92306522}
   - {fileID: 362606893}

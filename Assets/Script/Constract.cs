@@ -47,8 +47,8 @@ public class Constract : ScriptableObject
 
     void Awake()
     {
-        level_white = 1;
-        level_yellow = 100;
+        level_white = 1000;
+        level_yellow = 2000;
         level_green = 4000;
         level_blue = 8000;
         level_purple = 16000;
@@ -65,7 +65,7 @@ public class Constract : ScriptableObject
         stroking_cooltime_seconds = 1800;
 
         compliment_score = 100;
-        compliment_cooltime_seconds = 1;
+        compliment_cooltime_seconds = 14400;
 
         hungry_cooltime_seconds = 43200; //12시간
     }

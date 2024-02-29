@@ -20,10 +20,13 @@ public class MenuController : MonoBehaviour
 
     public void ToggleSound()
     {
-        UIManager.Instance.isTurnOnSound = !UIManager.Instance.isTurnOnSound;
+      //  UIManager.Instance.isTurnOnSound = !UIManager.Instance.isTurnOnSound;
     }
     public void OpenGameExitAlert() { }
     public void GoIntroScene() {
+        UnityEngine.XR.XRDevice.DisableAutoXRCameraTracking(Camera.main, true);
+        UnityEngine.XR.XRSettings.enabled = false;
+
         SceneManager.LoadScene(Constract.INTRO_SCENE_NAME);
     }
 

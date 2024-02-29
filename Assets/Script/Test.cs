@@ -4,8 +4,7 @@ public class Test : MonoBehaviour
 {
     public void ClearScore()
     {
-        PlayerPrefs.DeleteKey(Constract.AFFECTION_SCORE_KEY);
-        GameManager.Instance.LoadAffectionScore();
+        GameManager.Instance.ResetAffectionScore();
         ChickenController controller = FindAnyObjectByType<ChickenController>();
         if (controller != null )
         {

@@ -1,6 +1,8 @@
+using System.Collections;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,14 +24,14 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
     [HideInInspector]
     public Constract constract;
 
-    [SerializeField]
-    private TMP_Text affectionScoreTxt;
-
+    private AffectionUI affectionUI;
+    
     [HideInInspector]
-    public int affectionScore; //private로 나중에변경
+    private int affectionScore;
     public int AffectionScore => affectionScore;
 
     void Awake()
@@ -39,46 +41,54 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             constract = AssetDatabase.LoadAssetAtPath<Constract>(Constract.PATH);
-            LoadAffectionScore();
-            SetAffectionScoreTxt();
+            affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) : 0;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
 
+    public void StartGame()
+    {
+        StartCoroutine(LoadMainScene());
 
     }
+    IEnumerator LoadMainScene()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Constract.MAIN_SCENE_NAME);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        affectionUI = GetComponent<AffectionUI>();
+    }
+
+
     public void AddAffectionScore(int score)
     {
         affectionScore += score;
         SaveAffectionScore(affectionScore);
-        SetAffectionScoreTxt();
     }
 
     public void SubtractAffectionScore(int score)
     {
         affectionScore -= score;
         SaveAffectionScore(affectionScore);
-        SetAffectionScoreTxt();
+    }
+    public void ResetAffectionScore()
+    {
+        PlayerPrefs.DeleteKey(Constract.AFFECTION_SCORE_KEY);
+        SaveAffectionScore(0);
     }
 
-    private void SetAffectionScoreTxt()
-    {
-        affectionScoreTxt.text = affectionScore.ToString();
-    }
-    public void LoadAffectionScore()
-    {
-        affectionScore = PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY);
-        SetAffectionScoreTxt();
-    }
     private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
+        affectionUI.ChangeText();
     }
 
-    private void ResetAffectionScore()
-    {
-        SaveAffectionScore(0);
-    }
+
 }
