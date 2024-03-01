@@ -6,7 +6,7 @@ public class ComplimentSkill : MonoBehaviour
 
     private ChickenController chickenControll;
     [SerializeField]
-    private TMP_Text complimentText;
+    private TMP_InputField complimentText;
 
     void Awake()
     {

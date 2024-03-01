@@ -20,11 +20,10 @@ public class Alert : MonoBehaviour
         }
     }
 
-
-    public static void Hide()
+    void OnDisable()
     {
         instance.tmpText.text = "";
-        instance.gameObject.SetActive(false);
+
     }
 
     public static void Show(string message)

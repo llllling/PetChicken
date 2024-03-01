@@ -217,3 +217,31 @@ AR 환경에서 애완용 닭을 키우는 힐링 미니 게임 제작하기!
     }
 
     ```
+* Alert창, InputField창과 같이 X버튼이 여러군데 사용되어 프리팹으로 생성
+    * XButton 클릭 시 UI를 닫는 동작이 모두 동일함으로 스크립트를 만들어서 프리팹에 포함
+    * XButton.cs
+        * 아래 코드에서  [SerializeField]로 최상위 게임오브젝트 대신 오브젝트 이름을 받는 이유 
+            * 처음에 GameObject 자체를 전달 받도록 소스를 작성했음 => 최초 실행 시 잘 작동하지만, X버튼을 눌러 비활성화 되었다가 다시 활성화 되는 경우 inspector창에서 빈 값으로 할당되어 null값 넘어옴.
+            * 그래서 GameObject의 이름을 받아서 X버튼을 포함한 UI가 활성화 되는 경우 이름으로 찾아서 사용하도록 수정
+    ```C#
+    public class XButton : MonoBehaviour
+    {
+        /// <summary>
+        /// X 버튼이 클릭 될 때 닫혀야하는 오브젝트들 중 최상위 오브젝트 이름
+        /// </summary>
+        [SerializeField]
+        private string rootParentName;
+
+        private GameObject rootParent;
+
+        void Start()
+        {
+            rootParent = GameObject.Find(rootParentName);
+        }
+        public void OnClick()
+        {
+            rootParent.SetActive(false);
+        }
+    }
+
+    ```

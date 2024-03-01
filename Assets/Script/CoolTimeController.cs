@@ -21,7 +21,6 @@ public class CoolTimeController : MonoBehaviour
         if (!PlayerPrefs.HasKey(key)) return defaultValue;
 
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
-        Debug.Log(coolTimeSeconds);
         return (DateTime.Now - savedTime).TotalSeconds >= coolTimeSeconds;
 
     }

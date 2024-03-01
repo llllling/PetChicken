@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public Constract constract;
 
     private AffectionUI affectionUI;
-    
+
     [HideInInspector]
     private int affectionScore;
     public int AffectionScore => affectionScore;
@@ -42,6 +42,10 @@ public class GameManager : MonoBehaviour
             instance = this;
             constract = FindAnyObjectByType<Constract>();
             affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) : 0;
+            if (SceneManager.GetActiveScene().name == Constract.MAIN_SCENE_NAME)
+            {
+                InitMainScene();
+            }
         }
         else
         {
@@ -63,9 +67,8 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        affectionUI = GetComponent<AffectionUI>();
+        InitMainScene();
     }
-
 
     public void AddAffectionScore(int score)
     {
@@ -84,6 +87,10 @@ public class GameManager : MonoBehaviour
         SaveAffectionScore(0);
     }
 
+    private void InitMainScene()
+    {
+        affectionUI = FindAnyObjectByType<AffectionUI>();
+    }
     private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);

@@ -120,7 +120,6 @@ public class ChickenController : MonoBehaviour
     }
     private void ShowAffectionSkill()
     {
-        Debug.Log(complimentSkill);
         if (complimentSkill.activeSelf || affectionSkillButton.activeSelf) return;
         affectionSkillButton.SetActive(true);
     }
