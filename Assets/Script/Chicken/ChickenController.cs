@@ -12,8 +12,9 @@ public class ChickenController : MonoBehaviour
 
     [HideInInspector]
     public ParticleSystem affectionPrtcl;
-    private GameObject affectionSkill;
-    private bool isShowSkillUI = false;
+    
+    private GameObject affectionSkillButton;
+    private GameObject complimentSkill;
 
     [SerializeField]
     private GameObject hungryPrefab;
@@ -22,7 +23,7 @@ public class ChickenController : MonoBehaviour
     private ParticleSystem transformationPrtcl;
     public ChickenColors chickenColor;
     //private bool IsShowHungryChat => CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds, false) && hungryChat == null;
-    private bool IsShowHungryChat => hungryChat == null;
+    public bool IsShowHungryChat => hungryChat != null;
 
     public ChickenAnimation CurrentAnimation
     {
@@ -44,7 +45,10 @@ public class ChickenController : MonoBehaviour
         animationController = GetComponent<ChickenAnimatorController>();
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
-        affectionSkill = FindAnyObjectByType<Canvas>().transform.Find("AffectionSkills").gameObject;
+
+        Transform canvas = FindAnyObjectByType<Canvas>().transform;
+        affectionSkillButton = canvas.Find("AffectionSkillButtons").gameObject;
+        complimentSkill = canvas.Find("Compliment").gameObject;
     }
     void Start()
     {
@@ -56,7 +60,7 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
-        if (IsShowHungryChat)
+        if (!IsShowHungryChat)
         {
             CreateHungryChat();
         }
@@ -64,7 +68,7 @@ public class ChickenController : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
         {
-            ToggleAffectionSkill();
+            ShowAffectionSkill();
         }
 
 #endif
@@ -75,7 +79,7 @@ public class ChickenController : MonoBehaviour
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began && IsChickenTouch(touch.position))
             {
-                ToggleAffectionSkill();
+                ShowAffectionSkill();
             }
         }
 #endif
@@ -114,10 +118,11 @@ public class ChickenController : MonoBehaviour
         }
         return false;
     }
-    private void ToggleAffectionSkill()
+    private void ShowAffectionSkill()
     {
-        isShowSkillUI = !isShowSkillUI;
-        affectionSkill.SetActive(isShowSkillUI);
+        Debug.Log(complimentSkill);
+        if (complimentSkill.activeSelf || affectionSkillButton.activeSelf) return;
+        affectionSkillButton.SetActive(true);
     }
 
 

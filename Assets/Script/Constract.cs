@@ -57,7 +57,7 @@ public class Constract : ScriptableObject
 
         feed_add_score = 50;
         feed_subtract_score = 1000;
-        feed_cooltime_seconds = 14400;
+        feed_cooltime_seconds = 3;
 
 
         stroking_add_score = 10;
@@ -65,7 +65,7 @@ public class Constract : ScriptableObject
         stroking_cooltime_seconds = 1800;
 
         compliment_score = 100;
-        compliment_cooltime_seconds = 14400;
+        compliment_cooltime_seconds = 3;
 
         hungry_cooltime_seconds = 43200; //12시간
     }
