@@ -39,7 +39,6 @@ public class ChickenController : MonoBehaviour
         get
         {
             ChickenColors newColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
-            Debug.Log("IsLevelUP : " + GameManager.Instance.AffectionScore);
             return chickenColor != newColor;
         }
     }
@@ -168,6 +167,7 @@ public class ChickenController : MonoBehaviour
     private void CreateHungryChat()
     {
         hungryChat = Instantiate(hungryPrefab, transform.position, Quaternion.identity, FindAnyObjectByType<Canvas>().transform);
+        hungryChat.name = "HungryChat";
     }
     public void DestroyHungryChat()
     {

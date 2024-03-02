@@ -31,8 +31,8 @@ public class AffectionSkillButtons : MonoBehaviour
         {
             chickenControll.DestroyHungryChat();
         }
-        GameObject feed = Instantiate(feedPrefab, chickenControll.transform.position + transform.forward * 0.2f, Quaternion.identity, chickenControll.transform);
-        feed.transform.localPosition += chickenControll.transform.forward * 0.2f;
+        GameObject feed = Instantiate(feedPrefab, chickenControll.transform.position, Quaternion.identity, chickenControll.transform);
+        feed.transform.localPosition += feed.transform.forward * 0.22f;
         gameObject.SetActive(false);
     }
 

@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     }
     private void SaveAffectionScore(int affectionScore)
     {
-        Debug.Log(affectionScore);
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
         affectionUI.ChangeText();
     }
