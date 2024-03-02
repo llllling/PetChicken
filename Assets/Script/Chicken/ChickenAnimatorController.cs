@@ -43,14 +43,22 @@ public class ChickenAnimatorController : MonoBehaviour
     }
     public void EndRunAnimation()
     {
+        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsLevelUP)
         {
             chickenControll.LevelUP();
         }
-        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
     }
 
+    public void EndTurnHeadAnimaition()
+    {
+        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
+        if (chickenControll.IsLevelUP)
+        {
+            chickenControll.LevelUP();
+        }
+    }
     private string GetParamterNameByAnimation(ChickenAnimation currentAnimation)
     {
         return currentAnimation switch
@@ -58,7 +66,7 @@ public class ChickenAnimatorController : MonoBehaviour
             ChickenAnimation.WALK => "Walk",
             ChickenAnimation.RUN => "Run",
             ChickenAnimation.EAT => "Eat",
-            ChickenAnimation.TURN_HEAD => "Turn_Head",
+            ChickenAnimation.TURN_HEAD => "Turn Head",
             //IDLE로 상태가 변경되었을 경우 직전 파라미터명 넘겨준다. 
             _ => currentParamter,
         };

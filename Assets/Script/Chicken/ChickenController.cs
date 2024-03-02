@@ -13,19 +13,16 @@ public class ChickenController : MonoBehaviour
     [HideInInspector]
     public ParticleSystem affectionPrtcl;
 
+    private ParticleSystem transformationPrtcl;
+
     [SerializeField]
     private GameObject hungryPrefab;
     private GameObject hungryChat;
-
-    private ParticleSystem transformationPrtcl;
-
-    private Collider collider;
 
     private bool isShowHungryChat = false;
     public bool IsShowHungryChat => isShowHungryChat;
     private bool IsCreateHungryChat => CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooltime_seconds, false) && !isShowHungryChat;
 
-    private ChickenDrag chickenDrag;
     public ChickenAnimation CurrentAnimation
     {
         get;
@@ -41,6 +38,7 @@ public class ChickenController : MonoBehaviour
         }
     }
 
+    private Collider collider;
     public Vector3 Size => collider.bounds.size;
 
     void Awake()
@@ -50,8 +48,6 @@ public class ChickenController : MonoBehaviour
         
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
-
-        chickenDrag = GetComponent<ChickenDrag>();
     }
     void Start()
     {

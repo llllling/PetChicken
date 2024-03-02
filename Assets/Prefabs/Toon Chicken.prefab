@@ -10480,10 +10480,11 @@ GameObject:
   m_Component:
   - component: {fileID: 626678369031084282}
   - component: {fileID: 6335757459642726243}
+  - component: {fileID: 8095115229497241150}
   - component: {fileID: 5072710431769276540}
   - component: {fileID: 6366918834380423349}
   - component: {fileID: 2696466073405686810}
-  - component: {fileID: 8095115229497241150}
+  - component: {fileID: 1673133565731726220}
   m_Layer: 0
   m_Name: Toon Chicken
   m_TagString: Untagged
@@ -10535,6 +10536,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &8095115229497241150
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8986266462255528491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Height: 0.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.23, z: 0}
 --- !u!114 &5072710431769276540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10580,26 +10604,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e373e8cb3094b343af8e67d0a63e92a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &8095115229497241150
-CapsuleCollider:
+--- !u!114 &1673133565731726220
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8986266462255528491}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.15
-  m_Height: 0.4
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.23, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e62002fcb8c47a4fb4db1671f3c026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
