@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void SubtractAffectionScore(int score)
     {
-        affectionScore -= score;
+        affectionScore = Mathf.Max(affectionScore - score, 0);
         SaveAffectionScore(affectionScore);
     }
     public void ResetAffectionScore()
