@@ -12,7 +12,7 @@ public class StrokingSkill : MonoBehaviour
     private Vector3 staratDragPos = Vector3.zero;
 
     private bool isExecSubtractFunc = false;
-    private bool IsNoStroking => CoolTimeController.HasPassedCoolTime(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooltime_seconds, false) && !isExecSubtractFunc;
+    private bool IsNoStroking => CooldownManager .HasPassedCooldown(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds, false) && !isExecSubtractFunc;
 
     void Awake()
     {
@@ -100,7 +100,7 @@ public class StrokingSkill : MonoBehaviour
         chickenControll.affectionPrtcl.Play();
     
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
-        CoolTimeController.SaveCoolTime(Constract.STROKING_COOLTIME_KEY);
+        CooldownManager .SaveCooldown(Constract.STROKING_COOLTIME_KEY);
 
         isExecSubtractFunc = false;
     }

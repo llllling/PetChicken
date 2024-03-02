@@ -20,7 +20,7 @@ public class FeedSkill : MonoBehaviour
         chickenControll.ChangeAnimation(ChickenAnimation.EAT);
 
         GameManager.Instance.AddAffectionScore(Constract.Instance.feed_add_score);
-        CoolTimeController.SaveCoolTime(Constract.FEED_COOLTIME_KEY);
+        CooldownManager .SaveCooldown(Constract.FEED_COOLTIME_KEY);
 
         if (chickenControll.IsShowHungryChat)
         {

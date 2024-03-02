@@ -21,7 +21,7 @@ public class ChickenController : MonoBehaviour
 
     private bool isShowHungryChat = false;
     public bool IsShowHungryChat => isShowHungryChat;
-    private bool IsCreateHungryChat => CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooltime_seconds, false) && !isShowHungryChat;
+    private bool IsCreateHungryChat => CooldownManager .HasPassedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooldown_seconds, false) && !isShowHungryChat;
 
     public ChickenAnimation CurrentAnimation
     {

@@ -22,9 +22,9 @@ public class AffectionSkillAlert : MonoBehaviour
 
     public void CreateFeed()
     {
-        if (!CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds))
+        if (!CooldownManager .HasPassedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds))
         {
-            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
+            OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
@@ -35,9 +35,9 @@ public class AffectionSkillAlert : MonoBehaviour
 
     public void OpenComplimentAlert()
     {
-        if (!CoolTimeController.HasPassedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
+        if (!CooldownManager .HasPassedCooldown(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds))
         {
-            OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
+            OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
@@ -46,7 +46,7 @@ public class AffectionSkillAlert : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OpenCoolTimeAlert(string message)
+    private void OpenCooldownAlert(string message)
     {
         Alert.Show(message);
 

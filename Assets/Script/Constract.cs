@@ -30,20 +30,20 @@ public class Constract : ScriptableObject
 
     public int feed_add_score;
     public int feed_subtract_score;
-    public int feed_cooltime_seconds;
+    public int feed_cooldown_seconds;
     public const string FEED_COOLTIME_KEY = "FEEDCOOLTIME";
 
     public int stroking_add_score;
     public int stroking_subtract_score;
-    public int no_stroking_cooltime_seconds;
+    public int no_stroking_cooldown_seconds;
     public const string STROKING_COOLTIME_KEY = "STROKINGCOOLTIME";
 
 
     public int compliment_score;
-    public int compliment_cooltime_seconds;
+    public int compliment_cooldown_seconds;
     public const string COMPLIMENT_COOLTIME_KEY = "COMPLIMENTCOOLTIME";
 
-    public int hungry_cooltime_seconds;
+    public int hungry_cooldown_seconds;
 
     void Awake()
     {
@@ -57,15 +57,15 @@ public class Constract : ScriptableObject
 
         feed_add_score = 50;
         feed_subtract_score = 1000;
-        feed_cooltime_seconds = 3; //바꿔
-        hungry_cooltime_seconds = 10; //43200; //12시간
+        feed_cooldown_seconds = 3; //바꿔
+        hungry_cooldown_seconds = 10; //43200; //12시간
 
         stroking_add_score = 10;
         stroking_subtract_score = 50;
-        no_stroking_cooltime_seconds = 5;  //바꿔
+        no_stroking_cooldown_seconds = 5;  //바꿔
 
         compliment_score = 100;
-        compliment_cooltime_seconds = 3;  //바꿔
+        compliment_cooldown_seconds = 3;  //바꿔
 
     }
 
