@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AffectionSkillButtons : MonoBehaviour
+public class AffectionSkillAlert : MonoBehaviour
 {
 
     [SerializeField]

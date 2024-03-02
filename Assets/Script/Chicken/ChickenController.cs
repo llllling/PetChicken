@@ -12,9 +12,6 @@ public class ChickenController : MonoBehaviour
 
     [HideInInspector]
     public ParticleSystem affectionPrtcl;
-    
-    private GameObject affectionSkillButton;
-    private GameObject complimentSkill;
 
     [SerializeField]
     private GameObject hungryPrefab;
@@ -28,6 +25,7 @@ public class ChickenController : MonoBehaviour
     public bool IsShowHungryChat => isShowHungryChat;
     private bool IsCreateHungryChat => CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooltime_seconds, false) && !isShowHungryChat;
 
+    private ChickenDrag chickenDrag;
     public ChickenAnimation CurrentAnimation
     {
         get;
@@ -53,9 +51,7 @@ public class ChickenController : MonoBehaviour
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
 
-        Transform canvas = FindAnyObjectByType<Canvas>().transform;
-        affectionSkillButton = canvas.Find("AffectionSkillButtons").gameObject;
-        complimentSkill = canvas.Find("Compliment").gameObject;
+        chickenDrag = GetComponent<ChickenDrag>();
     }
     void Start()
     {
@@ -75,24 +71,6 @@ public class ChickenController : MonoBehaviour
             CreateHungryChat();
         }
 
-#if UNITY_EDITOR || UNITY_STANDALONE
-        if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
-        {
-            ShowAffectionSkill();
-        }
-
-#endif
-
-#if UNITY_ANDROID || UNITY_IOS
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began && IsChickenTouch(touch.position))
-            {
-                ShowAffectionSkill();
-            }
-        }
-#endif
     }
     public void ChangeAnimation(ChickenAnimation animation)
     {
@@ -113,27 +91,11 @@ public class ChickenController : MonoBehaviour
         ParticleSystem.MainModule main = transformationPrtcl.main;
         main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
         transformationPrtcl.Play();
-        Debug.Log("main.duration :" + main.duration);
+
         yield return new WaitForSeconds(main.duration);
  
         ChangeChickenBodyColor(chickenColor);
     }
-    private bool IsChickenTouch(Vector3 touchPos)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(touchPos);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            return hit.collider.gameObject == gameObject;
-        }
-        return false;
-    }
-    private void ShowAffectionSkill()
-    {
-        if (complimentSkill.activeSelf || affectionSkillButton.activeSelf) return;
-        affectionSkillButton.SetActive(true);
-    }
-
 
 
     /// <summary>

@@ -1,24 +1,71 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class ChickenDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ChickenDrag : MonoBehaviour
 {
-    void Start()
+    private bool isDragging = false;
+    private Vector3 offset;
+
+    void Update()
     {
-        Debug.Log("ChickenDrag Start");
-    }
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        Debug.Log("BeginDrag");
+        // 터치 입력 처리
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    OnTouchStart(touch.position);
+                    break;
+
+                case TouchPhase.Moved:
+                    OnTouchMove(touch.position);
+                    break;
+
+                case TouchPhase.Ended:
+                    OnTouchEnd();
+                    break;
+            }
+        }
+        // 마우스 입력 처리
+        else if (Input.GetMouseButtonDown(0))
+        {
+            OnTouchStart(Input.mousePosition);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            OnTouchMove(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            OnTouchEnd();
+        }
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void OnTouchStart(Vector3 inputPosition)
     {
-        Debug.Log("OnDrag");
+        Ray ray = Camera.main.ScreenPointToRay(inputPosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            isDragging = true;
+            offset = hit.transform.position - ray.origin;
+        }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void OnTouchMove(Vector3 inputPosition)
     {
-        Debug.Log("OnEndDrag");
+        if (isDragging)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(inputPosition);
+            Vector3 newPosition = ray.origin + offset;
+            transform.position = newPosition;
+        }
+    }
+
+    void OnTouchEnd()
+    {
+        isDragging = false;
     }
 }
