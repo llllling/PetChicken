@@ -67,7 +67,7 @@ public class Constract : ScriptableObject
         compliment_score = 100;
         compliment_cooltime_seconds = 3;
 
-        hungry_cooltime_seconds = 43200; //12시간
+        hungry_cooltime_seconds = 10; //43200; //12시간
     }
 
 }

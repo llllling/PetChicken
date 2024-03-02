@@ -15,11 +15,11 @@ public class CoolTimeController : MonoBehaviour
     /// </summary>
     /// <param name="key">저장된 시간 key</param>
     /// <param name="coolTimeSeconds">비교할 쿨타임 시간 초</param>
-    /// <param name="defaultValue">저장된 시간이 없는 경우 반환할 값</param>
-    public static bool CheckCoolTime(string key, int coolTimeSeconds, bool defaultValue = true)
+    /// <param name="defaultValue">저장된 시간 key가 없는 경우 반환할 값</param>
+    public static bool HasPassedCoolTime(string key, int coolTimeSeconds, bool defaultValue = true)
     {
         if (!PlayerPrefs.HasKey(key)) return defaultValue;
-
+      
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
         return (DateTime.Now - savedTime).TotalSeconds >= coolTimeSeconds;
 

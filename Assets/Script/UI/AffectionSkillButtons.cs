@@ -6,7 +6,7 @@ public class AffectionSkillButtons : MonoBehaviour
     [SerializeField]
     private GameObject feedPrefab;
     [SerializeField]
-    private GameObject complimentPanel;
+    private GameObject complimentAlert;
 
     private ChickenController chickenControll;
 
@@ -22,7 +22,7 @@ public class AffectionSkillButtons : MonoBehaviour
 
     public void CreateFeed()
     {
-        if (!CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds))
+        if (!CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds))
         {
             OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
@@ -31,20 +31,20 @@ public class AffectionSkillButtons : MonoBehaviour
         {
             chickenControll.DestroyHungryChat();
         }
-        Instantiate(feedPrefab, chickenControll.transform.position + new Vector3(-2f, 0, 0), Quaternion.identity);
-
+        GameObject feed = Instantiate(feedPrefab, chickenControll.transform.position + transform.forward * 0.2f, Quaternion.identity, chickenControll.transform);
+        feed.transform.localPosition += chickenControll.transform.forward * 0.2f;
         gameObject.SetActive(false);
     }
 
-    public void OpenComplimentPanel()
+    public void OpenComplimentAlert()
     {
-        if (!CoolTimeController.CheckCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
+        if (!CoolTimeController.HasPassedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds))
         {
             OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
-        complimentPanel.SetActive(true);
+        complimentAlert.SetActive(true);
 
         gameObject.SetActive(false);
     }

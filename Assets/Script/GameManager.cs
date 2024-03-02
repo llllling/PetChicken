@@ -87,6 +87,11 @@ public class GameManager : MonoBehaviour
         SaveAffectionScore(0);
     }
 
+    public void GameEnd()
+    {
+        Application.Quit();
+    }
+
     private void InitMainScene()
     {
         affectionUI = FindAnyObjectByType<AffectionUI>();
@@ -96,6 +101,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
         affectionUI.ChangeText();
     }
+
 
 
 }

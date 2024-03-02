@@ -10548,13 +10548,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelRenderer: {fileID: 3203111662753987340}
+  chickenColor: 0
   animationController: {fileID: 0}
   affectionPrtcl: {fileID: 0}
-  affectionSkillButton: {fileID: 0}
-  complimentSkill: {fileID: 0}
-  hungryPrefab: {fileID: 2294259248044468597, guid: caeac938fd11dd944ad2996073b50522,
+  hungryPrefab: {fileID: 5445756150874519378, guid: 374ddbb193cab91459ea8eb2b0a0f31f,
     type: 3}
-  chickenColor: 0
 --- !u!114 &6366918834380423349
 MonoBehaviour:
   m_ObjectHideFlags: 0

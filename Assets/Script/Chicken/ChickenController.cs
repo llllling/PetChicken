@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChickenController : MonoBehaviour
 {
     public Renderer modelRenderer;
-
+    public ChickenColors chickenColor;
 
     [HideInInspector]
     public ChickenAnimatorController animationController;
@@ -21,9 +21,12 @@ public class ChickenController : MonoBehaviour
     private GameObject hungryChat;
 
     private ParticleSystem transformationPrtcl;
-    public ChickenColors chickenColor;
-    //private bool IsShowHungryChat => CoolTimeController.CheckCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds, false) && hungryChat == null;
-    public bool IsShowHungryChat => hungryChat != null;
+
+    private Collider collider;
+
+    private bool isShowHungryChat = false;
+    public bool IsShowHungryChat => isShowHungryChat;
+    private bool IsCreateHungryChat => CoolTimeController.HasPassedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooltime_seconds, false) && !isShowHungryChat;
 
     public ChickenAnimation CurrentAnimation
     {
@@ -40,9 +43,13 @@ public class ChickenController : MonoBehaviour
         }
     }
 
+    public Vector3 Size => collider.bounds.size;
+
     void Awake()
     {
         animationController = GetComponent<ChickenAnimatorController>();
+        collider = GetComponent<Collider>();
+        
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
 
@@ -60,13 +67,16 @@ public class ChickenController : MonoBehaviour
 
     void Update()
     {
-        if (!IsShowHungryChat)
+        if (IsCreateHungryChat)
         {
+            isShowHungryChat = true;
+
+            Debug.Log(IsCreateHungryChat);
             CreateHungryChat();
         }
-      
+
 #if UNITY_EDITOR || UNITY_STANDALONE
-            if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
+        if (Input.GetMouseButtonDown(0) && IsChickenTouch(Input.mousePosition))
         {
             ShowAffectionSkill();
         }
@@ -156,12 +166,11 @@ public class ChickenController : MonoBehaviour
 
     private void CreateHungryChat()
     {
-
-        hungryChat = Instantiate(hungryPrefab, transform.position, Quaternion.identity, transform);
-        hungryChat.transform.localPosition = new Vector3(0f, 2f, 0f);
+        hungryChat = Instantiate(hungryPrefab, transform.position, Quaternion.identity, FindAnyObjectByType<Canvas>().transform);
     }
     public void DestroyHungryChat()
     {
+        isShowHungryChat = false;
         Destroy(hungryChat);
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ComplimentSkill : MonoBehaviour
 {
-
     private ChickenController chickenControll;
     [SerializeField]
     private TMP_InputField complimentText;
@@ -15,10 +14,6 @@ public class ComplimentSkill : MonoBehaviour
     void OnDisable()
     {
         ClearCompliment();
-    }
-    public void CloseComplimentPanel()
-    {
-        gameObject.SetActive(false);
     }
 
     public void SendCompliment()

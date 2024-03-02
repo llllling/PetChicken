@@ -41,7 +41,6 @@ public class ChickenAnimatorController : MonoBehaviour
         {
             chickenControll.LevelUP();
         }
-        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
     }
     public void EndRunAnimation()
     {
