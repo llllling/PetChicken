@@ -27,12 +27,9 @@ public class AffectionSkillAlert : MonoBehaviour
             OpenCoolTimeAlert(CoolTimeController.GetRemainedCoolTime(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooltime_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
-        if (chickenControll.IsShowHungryChat)
-        {
-            chickenControll.DestroyHungryChat();
-        }
-        GameObject feed = Instantiate(feedPrefab, chickenControll.transform.position, Quaternion.identity, chickenControll.transform);
-        feed.transform.localPosition += feed.transform.forward * 0.22f;
+
+        Instantiate(feedPrefab, chickenControll.transform.position, Quaternion.identity, chickenControll.transform);
+        
         gameObject.SetActive(false);
     }
 

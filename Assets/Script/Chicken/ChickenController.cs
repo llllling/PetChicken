@@ -129,5 +129,6 @@ public class ChickenController : MonoBehaviour
     public void DestroyHungryChat()
     {
         Destroy(hungryChat);
+        isShowHungryChat = false;
     }
 }

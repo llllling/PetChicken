@@ -96,6 +96,7 @@ public class StrokingSkill : MonoBehaviour
     {
         chickenControll.ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenControll.affectionPrtcl.Play();
+    
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
         CoolTimeController.SaveCoolTime(Constract.STROKING_COOLTIME_KEY);
     }
