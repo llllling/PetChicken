@@ -62,8 +62,6 @@ public class ChickenController : MonoBehaviour
         if (IsCreateHungryChat)
         {
             isShowHungryChat = true;
-
-            Debug.Log(IsCreateHungryChat);
             CreateHungryChat();
         }
 
@@ -73,7 +71,6 @@ public class ChickenController : MonoBehaviour
         CurrentAnimation = animation;
         animationController.OnAnimation(animation);
     }
-   
 
 
     public void LevelUP()
@@ -124,12 +121,13 @@ public class ChickenController : MonoBehaviour
 
     private void CreateHungryChat()
     {
-        hungryChat = Instantiate(hungryPrefab, transform.position, Quaternion.identity, FindAnyObjectByType<Canvas>().transform);
+        Debug.Log("»ý¼ºµÊ");
+        hungryChat = Instantiate(hungryPrefab, FindAnyObjectByType<Canvas>().transform);
         hungryChat.name = "HungryChat";
+        GameManager.Instance.SubtractAffectionScore(Constract.Instance.feed_subtract_score);
     }
     public void DestroyHungryChat()
     {
-        isShowHungryChat = false;
         Destroy(hungryChat);
     }
 }

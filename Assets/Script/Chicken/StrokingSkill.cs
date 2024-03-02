@@ -10,6 +10,8 @@ public class StrokingSkill : MonoBehaviour
     private int dragCount = 0;
     private Vector3 staratDragPos = Vector3.zero;
 
+    private bool IsNoStroking => CoolTimeController.HasPassedCoolTime(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooltime_seconds, false);
+
     void Awake()
     {
         chickenControll = GetComponent<ChickenController>();
@@ -17,6 +19,10 @@ public class StrokingSkill : MonoBehaviour
 
     void Update()
     {
+        if (IsNoStroking)
+        {
+            NoStroking();
+        }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -91,5 +97,11 @@ public class StrokingSkill : MonoBehaviour
         chickenControll.ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenControll.affectionPrtcl.Play();
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
+        CoolTimeController.SaveCoolTime(Constract.STROKING_COOLTIME_KEY);
+    }
+
+    private void NoStroking()
+    {
+        GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
     }
 }
