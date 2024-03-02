@@ -10,9 +10,7 @@ public class StrokingSkill : MonoBehaviour
     private readonly float dragCheckOffset = 15f;
     private int dragCount = 0;
     private Vector3 staratDragPos = Vector3.zero;
-
-    private bool isExecSubtractFunc = false;
-    private bool IsNoStroking => CooldownManager .HasPassedCooldown(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds, false) && !isExecSubtractFunc;
+    private bool IsNoStroking => CooldownManager.IsCooldownMultipleElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds);
 
     void Awake()
     {
@@ -102,13 +100,11 @@ public class StrokingSkill : MonoBehaviour
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
         CooldownManager .SaveCooldown(Constract.STROKING_COOLTIME_KEY);
 
-        isExecSubtractFunc = false;
     }
 
     private void NoStroking()
     {
         Debug.Log("NoStroking :" );
-        isExecSubtractFunc = true;
         GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
     }
 }

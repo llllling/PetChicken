@@ -15,9 +15,10 @@ public class CooldownManager : MonoBehaviour
     /// </summary>
     /// <param name="key">저장된 시간 key</param>
     /// <param name="coolDownSeconds">비교할 쿨타임 시간 초</param>
-    public static bool HasPassedCooldown(string key, int coolDownSeconds)
+    /// <param name="defaultValue">저장된 key값이 없을 때(저장된 시간이 없을 때) 반환할 기본 값</param>
+    public static bool IsCooldownElapsed(string key, int coolDownSeconds, bool defaultValue = true)
     {
-        if (!PlayerPrefs.HasKey(key)) return true;
+        if (!PlayerPrefs.HasKey(key)) return defaultValue;
       
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
         return (DateTime.Now - savedTime).TotalSeconds >= coolDownSeconds;
@@ -30,13 +31,13 @@ public class CooldownManager : MonoBehaviour
     /// </summary>
     /// <param name="key">저장된 시간 key</param>
     /// <param name="coolDownSeconds">비교할 쿨타임 시간 초</param>
-    public static bool IsCooldown(string key, int coolDownSeconds)
+    /// <param name="defaultValue">저장된 key값이 없을 때(저장된 시간이 없을 때) 반환할 기본 값</param>
+    public static bool IsCooldownMultipleElapsed(string key, int coolDownSeconds, bool defaultValue = false)
     {
-        if (!PlayerPrefs.HasKey(key)) return false;
+        if (!PlayerPrefs.HasKey(key)) return defaultValue;
 
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
-        return (DateTime.Now - savedTime).TotalSeconds % coolDownSeconds == 0;
-
+        return Math.Round((DateTime.Now - savedTime).TotalSeconds, 2) % coolDownSeconds == 0;
     }
 
     public static string GetRemainedCooldown(string key, int coolDownSeconds)
