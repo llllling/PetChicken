@@ -5,12 +5,14 @@ using UnityEngine;
 /// </summary>
 public class StrokingSkill : MonoBehaviour
 {
+
     private ChickenController chickenControll;
     private readonly float dragCheckOffset = 15f;
     private int dragCount = 0;
     private Vector3 staratDragPos = Vector3.zero;
 
-    private bool IsNoStroking => CoolTimeController.HasPassedCoolTime(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooltime_seconds, false);
+    private bool isExecSubtractFunc = false;
+    private bool IsNoStroking => CoolTimeController.HasPassedCoolTime(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooltime_seconds, false) && !isExecSubtractFunc;
 
     void Awake()
     {
@@ -99,10 +101,14 @@ public class StrokingSkill : MonoBehaviour
     
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
         CoolTimeController.SaveCoolTime(Constract.STROKING_COOLTIME_KEY);
+
+        isExecSubtractFunc = false;
     }
 
     private void NoStroking()
     {
+        Debug.Log("NoStroking :" );
+        isExecSubtractFunc = true;
         GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
     }
 }

@@ -121,7 +121,6 @@ public class ChickenController : MonoBehaviour
 
     private void CreateHungryChat()
     {
-        Debug.Log("»ý¼ºµÊ");
         hungryChat = Instantiate(hungryPrefab, FindAnyObjectByType<Canvas>().transform);
         hungryChat.name = "HungryChat";
         GameManager.Instance.SubtractAffectionScore(Constract.Instance.feed_subtract_score);
