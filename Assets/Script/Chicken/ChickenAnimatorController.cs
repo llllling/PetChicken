@@ -35,7 +35,6 @@ public class ChickenAnimatorController : MonoBehaviour
 
     public void EndEatAnimation()
     {
-
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsLevelUP)
         {

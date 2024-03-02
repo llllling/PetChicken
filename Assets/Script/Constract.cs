@@ -47,10 +47,10 @@ public class Constract : ScriptableObject
 
     void Awake()
     {
-        level_white = 1000;
-        level_yellow = 2000;
-        level_green = 4000;
-        level_blue = 8000;
+        level_white = 0;
+        level_yellow = 100;
+        level_green = 3000;
+        level_blue = 7000;
         level_purple = 16000;
         level_red = 32000;
         level_black = 64000;

@@ -39,6 +39,7 @@ public class ChickenController : MonoBehaviour
         get
         {
             ChickenColors newColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
+            Debug.Log("IsLevelUP : " + GameManager.Instance.AffectionScore);
             return chickenColor != newColor;
         }
     }
@@ -113,9 +114,9 @@ public class ChickenController : MonoBehaviour
         ParticleSystem.MainModule main = transformationPrtcl.main;
         main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
         transformationPrtcl.Play();
-
+        Debug.Log("main.duration :" + main.duration);
         yield return new WaitForSeconds(main.duration);
-
+ 
         ChangeChickenBodyColor(chickenColor);
     }
     private bool IsChickenTouch(Vector3 touchPos)

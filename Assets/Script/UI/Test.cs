@@ -10,6 +10,7 @@ public class Test : MonoBehaviour
         {
             controller.ChangeChickenBodyColor(ChickenColors.WHITE);
         }
+        FindAnyObjectByType<AffectionUI>().ChangeText();
     }
 
     public void ClearFeedTime()

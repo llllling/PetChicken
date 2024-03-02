@@ -30,13 +30,13 @@ public static class ChickenColor
     {
         return affection switch
         {
-            int n when (n <= Constract.Instance.level_white) => ChickenColors.WHITE,
-            int n when (n <= Constract.Instance.level_yellow) => ChickenColors.YELLOW,
-            int n when (n <= Constract.Instance.level_green) => ChickenColors.GREEN,
-            int n when (n <= Constract.Instance.level_blue) => ChickenColors.BLUE,
-            int n when (n <= Constract.Instance.level_purple) => ChickenColors.PURPLE,
-            int n when (n <= Constract.Instance.level_red) => ChickenColors.RED,
-            _ => ChickenColors.BLACK,
+            int n when (n >= Constract.Instance.level_black) => ChickenColors.BLACK,
+            int n when (n >= Constract.Instance.level_red) => ChickenColors.RED,
+            int n when (n >= Constract.Instance.level_purple) => ChickenColors.PURPLE,
+            int n when (n >= Constract.Instance.level_blue) => ChickenColors.BLUE,
+            int n when (n >= Constract.Instance.level_green) => ChickenColors.GREEN,
+            int n when (n >= Constract.Instance.level_yellow) => ChickenColors.YELLOW,
+            _ => ChickenColors.WHITE,
         };
     }
 
