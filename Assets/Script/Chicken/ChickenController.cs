@@ -21,7 +21,7 @@ public class ChickenController : MonoBehaviour
 
     private bool isShowHungryChat = false;
     public bool IsShowHungryChat => isShowHungryChat;
-    private bool IsCreateHungryChat => CooldownManager .IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooldown_seconds, false) && !isShowHungryChat;
+    private bool IsCreateHungryChat => CooldownManager.IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooldown_seconds, false) && !isShowHungryChat;
 
     public ChickenAnimation CurrentAnimation
     {
@@ -29,7 +29,10 @@ public class ChickenController : MonoBehaviour
         private set;
     } = ChickenAnimation.IDLE;
 
-    public bool IsLevelUP
+    /// <summary>
+    /// 닭의 색상 변화 여부(레벨 업/감소 체크)
+    /// </summary>
+    public bool IsTransformation
     {
         get
         {
@@ -52,9 +55,7 @@ public class ChickenController : MonoBehaviour
     void Start()
     {
         CurrentAnimation = ChickenAnimation.IDLE;
-
-        chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
-        ChangeChickenBodyColor(chickenColor);
+        ChangeChickenColor();
     }
 
     void Update()
@@ -71,16 +72,26 @@ public class ChickenController : MonoBehaviour
         CurrentAnimation = animation;
         animationController.OnAnimation(animation);
     }
-
-
-    public void LevelUP()
+    /// <summary>
+    /// 애정도에 따른 닭의 몸 색 바꾸는 함수
+    /// </summary>
+    public void ChangeChickenColor()
     {
-        StartCoroutine(Transformation());
+        chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
+        ChangeChickenBodyColor(chickenColor);
+    }
+    /// <summary>
+    /// 레벨 업하면서 닭의 몸 색 변화, 변신 파티클 실행
+    /// </summary>
+    public void Transformation()
+    {
+        StartCoroutine(TransformationCoroutine());
     }
 
-    private IEnumerator Transformation()
+    private IEnumerator TransformationCoroutine()
     {
-        ChickenColors chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
+        chickenColor = ChickenColor.ChickenColorByAffection(GameManager.Instance.AffectionScore);
+        
         ParticleSystem.MainModule main = transformationPrtcl.main;
         main.startColor = new ParticleSystem.MinMaxGradient(ChickenColor.ColorByChickenColors(chickenColor));
         transformationPrtcl.Play();
@@ -90,13 +101,11 @@ public class ChickenController : MonoBehaviour
         ChangeChickenBodyColor(chickenColor);
     }
 
-
     /// <summary>
     /// 애완닭의 몸통색을 레벨에 맞게 변환시키는 함수로 레벨 1이상이면 이전 레벨과 다음 레벨 사이의 중간색으로 몸통색을 변환 시키는 함수
     /// </summary>
-    public void ChangeChickenBodyColor(ChickenColors chickenColor)
+    private void ChangeChickenBodyColor(ChickenColors chickenColor)
     {
-
         Color endColor = ChickenColor.ColorByChickenColors(chickenColor);
         Color middleColor = endColor;
 
@@ -123,7 +132,6 @@ public class ChickenController : MonoBehaviour
     {
         hungryChat = Instantiate(hungryPrefab, FindAnyObjectByType<Canvas>().transform);
         hungryChat.name = "HungryChat";
-        GameManager.Instance.SubtractAffectionScore(Constract.Instance.feed_subtract_score);
     }
     public void DestroyHungryChat()
     {

@@ -8,7 +8,7 @@ public class Test : MonoBehaviour
         ChickenController controller = FindAnyObjectByType<ChickenController>();
         if (controller != null )
         {
-            controller.ChangeChickenBodyColor(ChickenColors.WHITE);
+            controller.ChangeChickenColor();
         }
         FindAnyObjectByType<AffectionUI>().ChangeText();
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 치킨을 드래그 2번 이상 했을 경우 쓰담쓰담 스킬 발동해서 애정도 올리는 컴포넌트
+/// 닭을 드래그 2번 이상 했을 경우 쓰담쓰담 스킬 발동해서 애정도 올리는 컴포넌트
 /// </summary>
 public class StrokingSkill : MonoBehaviour
 {
@@ -10,7 +10,10 @@ public class StrokingSkill : MonoBehaviour
     private readonly float dragCheckOffset = 15f;
     private int dragCount = 0;
     private Vector3 staratDragPos = Vector3.zero;
-    private bool IsNoStroking => CooldownManager.IsCooldownMultipleElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds);
+    /// <summary>
+    /// 쓰담쓰담 안하는 경우 지정된 쿨다운 시간마다 점수 감소 여부 체크를 위한 프로퍼티
+    /// </summary>
+    private bool IsSubstractAffection => CooldownManager.IsCooldownMultipleElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds);
 
     void Awake()
     {
@@ -19,9 +22,9 @@ public class StrokingSkill : MonoBehaviour
 
     void Update()
     {
-        if (IsNoStroking)
+        if (IsSubstractAffection)
         {
-            NoStroking();
+            SubstractAffectionScore();
         }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
@@ -102,9 +105,13 @@ public class StrokingSkill : MonoBehaviour
 
     }
 
-    private void NoStroking()
+    private void SubstractAffectionScore()
     {
-        Debug.Log("NoStroking :" );
+        Debug.Log("SubstractAffectionScore :");
         GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
+        if (chickenControll.IsTransformation)
+        {
+            chickenControll.ChangeChickenColor();
+        }
     }
 }

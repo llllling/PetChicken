@@ -36,27 +36,27 @@ public class ChickenAnimatorController : MonoBehaviour
     public void EndEatAnimation()
     {
         chickenControll.affectionPrtcl.Play();
-        if (chickenControll.IsLevelUP)
+        if (chickenControll.IsTransformation)
         {
-            chickenControll.LevelUP();
+            chickenControll.Transformation();
         }
     }
     public void EndRunAnimation()
     {
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
         chickenControll.affectionPrtcl.Play();
-        if (chickenControll.IsLevelUP)
+        if (chickenControll.IsTransformation)
         {
-            chickenControll.LevelUP();
+            chickenControll.Transformation();
         }
     }
 
     public void EndTurnHeadAnimaition()
     {
         chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
-        if (chickenControll.IsLevelUP)
+        if (chickenControll.IsTransformation)
         {
-            chickenControll.LevelUP();
+            chickenControll.Transformation();
         }
     }
     private string GetParamterNameByAnimation(ChickenAnimation currentAnimation)
