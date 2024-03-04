@@ -1,18 +1,15 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 public class ARTrackedManager : MonoBehaviour
-{
-    [HideInInspector]
-    public ARPlane lastTrackedPlane;
-
+{ 
     [SerializeField]
-    private GameObject trackedPrefab;
+    private GameObject chickenPrefab;
 
     private ARPlaneManager planeManager;
-    private GameObject chicken;
-
+    private static List<ARPlane> planes = new ();
+    private bool isCreateChicken = false;
 
     void Awake()
     {
@@ -32,25 +29,30 @@ public class ARTrackedManager : MonoBehaviour
 
     public void OnTrackablesChanged(ARPlanesChangedEventArgs changes)
     {
-        if (changes.added.Count > 0)
+        if (planes.Count > 0 && !isCreateChicken)
         {
-            CreatePrefab(changes.added[0]);
-            lastTrackedPlane = changes.added[0];
+            CreateChicken();
         }
 
-        if (changes.updated.Count > 0)
+        foreach (var plane in changes.added)
         {
-            lastTrackedPlane = changes.updated[0];
+            planes.Add(plane);
+        }
+
+        foreach (var plane in changes.removed)
+        {
+            planes.Remove(plane);
         }
     }
 
-    private void CreatePrefab(ARPlane trackedPlane)
+    public static Transform GetRandomPlaneTransform()
     {
-
-        if (trackedPrefab != null && chicken != null) return;
-
-        chicken = Instantiate(trackedPrefab);
-        chicken.transform.SetPositionAndRotation(trackedPlane.transform.position, trackedPlane.transform.rotation);
-
+        return planes[Random.Range(0, planes.Count)].transform;
+    }
+    private void CreateChicken()
+    {
+        Transform planeTransform = GetRandomPlaneTransform();
+        isCreateChicken = true;
+        Instantiate(chickenPrefab, planeTransform.position, planeTransform.rotation);
     }
 }

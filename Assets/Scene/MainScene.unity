@@ -4350,8 +4350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf9277484ca58f34cac62f3c4ebd330e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastTrackedPlane: {fileID: 0}
-  trackedPrefab: {fileID: 8986266462255528491, guid: 084a4149e20ee3a4690927e54f945a67,
+  chickenPrefab: {fileID: 8986266462255528491, guid: 084a4149e20ee3a4690927e54f945a67,
     type: 3}
 --- !u!114 &1909863731
 MonoBehaviour:

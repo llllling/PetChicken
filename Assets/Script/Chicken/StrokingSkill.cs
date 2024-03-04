@@ -99,7 +99,7 @@ public class StrokingSkill : MonoBehaviour
     {
         CancelSubstractAffctnScore();
 
-        chickenControll.ChangeAnimation(ChickenAnimation.TURN_HEAD);
+        chickenControll.animationController.ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenControll.affectionPrtcl.Play();
     
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -17,20 +16,35 @@ public class ChickenAnimatorController : MonoBehaviour
     private string currentParamter = string.Empty;
     private Animator animator;
 
+    public ChickenAnimation CurrentAnimation
+    {
+        get;
+        private set;
+    } = ChickenAnimation.IDLE;
+
+
     void Awake()
     {
         chickenControll = GetComponent<ChickenController>();
         animator = GetComponent<Animator>();
     }
 
-
-    public void OnAnimation(ChickenAnimation currentAnimation)
+     void Start()
     {
-        currentParamter = GetParamterNameByAnimation(currentAnimation);
+        CurrentAnimation = ChickenAnimation.IDLE;
+    }
+
+
+   
+    public void ChangeAnimation(ChickenAnimation animation)
+    {
+        CurrentAnimation = animation;
+        currentParamter = GetParamterNameByAnimation(animation);
+
         if (currentParamter == string.Empty) return;
 
         // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
-        animator.SetBool(GetParamterNameByAnimation(currentAnimation), currentAnimation != ChickenAnimation.IDLE);
+        animator.SetBool(currentParamter, animation != ChickenAnimation.IDLE);
     }
 
     public void EndEatAnimation()
@@ -43,7 +57,7 @@ public class ChickenAnimatorController : MonoBehaviour
     }
     public void EndRunAnimation()
     {
-        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
+        ChangeAnimation(ChickenAnimation.IDLE);
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsTransformation)
         {
@@ -53,12 +67,19 @@ public class ChickenAnimatorController : MonoBehaviour
 
     public void EndTurnHeadAnimaition()
     {
-        chickenControll.ChangeAnimation(ChickenAnimation.IDLE);
+       ChangeAnimation(ChickenAnimation.IDLE);
         if (chickenControll.IsTransformation)
         {
             chickenControll.Transformation();
         }
     }
+
+    public void MoveAnimation()
+    {
+        ChickenAnimation animationForMove = (ChickenAnimation)Random.Range(1, 3);
+        ChangeAnimation(animationForMove);
+    }
+
     private string GetParamterNameByAnimation(ChickenAnimation currentAnimation)
     {
         return currentAnimation switch

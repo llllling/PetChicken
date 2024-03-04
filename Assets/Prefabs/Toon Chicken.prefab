@@ -10584,14 +10584,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8986266462255528491}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b014943ea3ffc4140a2f292a8f15b3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.01
-  randomPosMinTime: 5
-  randomPosMaxTime: 10
+  randomPosMinTime: 2
+  randomPosMaxTime: 3
 --- !u!114 &2696466073405686810
 MonoBehaviour:
   m_ObjectHideFlags: 0

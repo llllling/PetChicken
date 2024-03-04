@@ -4,75 +4,73 @@ public class ChickenMovement : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed = 0.01f;
-    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 쿨타임 최소 시간</summary>
+    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 최소 시간</summary>
     [SerializeField]
     private float randomPosMinTime = 5f;
-    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 쿨타임 최대 시간</summary>
+    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 최대 시간</summary>
     [SerializeField]
     private float randomPosMaxTime = 10f;
-    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 쿨타임 시간</summary>
+    ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 시간</summary>
     private float randomPosTime;
     private float lastTime;
     private Transform target;
 
-    private ARTrackedManager trackedManager;
+    private ChickenAnimatorController chickenAnimator;
 
-    private ChickenController chickenController;
+    private bool isExecMoveAnimation = false;
 
     private bool IsArrideDestination => Vector3.Distance(target.position, transform.position) < 0.01f;
+    private bool IsPassedTime => Time.time >= lastTime + randomPosTime;
 
-    private bool IsResetTarget => Time.time >= lastTime + randomPosTime;
-    private bool isMoving = false;
 
     void Awake()
     {
-        chickenController = GetComponent<ChickenController>();
-        trackedManager = GameObject.Find("XR Origin").GetComponent<ARTrackedManager>();
+        chickenAnimator = GetComponent<ChickenAnimatorController>();
     }
     void Start()
     {
-        CreateRandomMoveTime();
-        target = trackedManager.lastTrackedPlane.transform;
+        CreateRandomTime();
+        SetRandomPosition();
     }
+    // 일정 시간이 지나면 랜덤 위치로 이동한다.
+    //도착하면 애니메이션 대기상태로 바꾸고 
 
     void Update()
     {
-        if (target == null) return;
-
         if (IsArrideDestination)
         {
-            // 목적지에 도착했다면 일정 시간이 지난 후 목적지 재설정.
-            if (chickenController.CurrentAnimation != ChickenAnimation.IDLE)
+            if (IsPassedTime)
             {
-                chickenController.ChangeAnimation(ChickenAnimation.IDLE);
-                isMoving = false;
-
-                Debug.Log("IDLE");
-                return;
+                CreateRandomTime();
+                SetRandomPosition();
             }
 
-            if (IsResetTarget)
+            if (chickenAnimator.CurrentAnimation != ChickenAnimation.IDLE)
             {
-                target = trackedManager.lastTrackedPlane.transform;
-                CreateRandomMoveTime();
-                Debug.Log("IsResetTarget");
+                chickenAnimator.ChangeAnimation(ChickenAnimation.IDLE);
+                isExecMoveAnimation = false;
             }
+
             return;
         }
 
-        Move();
-        if (!isMoving)
+        if (!isExecMoveAnimation)
         {
-            ChickenAnimation animationForMove = (ChickenAnimation)Random.Range(1, 3);
-            if (animationForMove == ChickenAnimation.RUN) { moveSpeed += 0.02f; }
-            chickenController.ChangeAnimation(animationForMove);
-            isMoving = true;
-            Debug.Log("isMoving");
-
+            Debug.Log("애니메이션 걷는거로 변환");
+            isExecMoveAnimation = true;
+            chickenAnimator.MoveAnimation();
         }
+
+        Move();
+
     }
 
-    private void CreateRandomMoveTime()
+    private void SetRandomPosition()
+    {
+        target = ARTrackedManager.GetRandomPlaneTransform();
+    }
+
+    private void CreateRandomTime()
     {
         lastTime = Time.time;
         randomPosTime = Random.Range(randomPosMinTime, randomPosMaxTime);

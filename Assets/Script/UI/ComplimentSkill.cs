@@ -21,7 +21,7 @@ public class ComplimentSkill : MonoBehaviour
         GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
         CooldownManager .SaveCooldown(Constract.COMPLIMENT_COOLTIME_KEY);
 
-        chickenControll.ChangeAnimation(ChickenAnimation.RUN);
+        chickenControll.animationController.ChangeAnimation(ChickenAnimation.RUN);
 
         gameObject.SetActive(false);
     }

@@ -23,12 +23,6 @@ public class ChickenController : MonoBehaviour
     public bool IsShowHungryChat => isShowHungryChat;
     private bool IsCreateHungryChat => CooldownManager.IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.hungry_cooldown_seconds, false) && !isShowHungryChat;
 
-    public ChickenAnimation CurrentAnimation
-    {
-        get;
-        private set;
-    } = ChickenAnimation.IDLE;
-
     /// <summary>
     /// 닭의 색상 변화 여부(레벨 업/감소 체크)
     /// </summary>
@@ -54,7 +48,6 @@ public class ChickenController : MonoBehaviour
     }
     void Start()
     {
-        CurrentAnimation = ChickenAnimation.IDLE;
         ChangeChickenColor();
     }
 
@@ -67,11 +60,7 @@ public class ChickenController : MonoBehaviour
         }
 
     }
-    public void ChangeAnimation(ChickenAnimation animation)
-    {
-        CurrentAnimation = animation;
-        animationController.OnAnimation(animation);
-    }
+
     /// <summary>
     /// 애정도에 따른 닭의 몸 색 바꾸는 함수
     /// </summary>
