@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    [SerializeField]
+    private Image soundButtonImage;
+    [SerializeField]
+    private Sprite soundOnImage;
+    [SerializeField]
+    private Sprite soundOffImage;
     [SerializeField]
     private GameObject gameEndAlert;
 
@@ -21,7 +28,18 @@ public class MenuController : MonoBehaviour
 
     public void ToggleSound()
     {
-        //  UIManager.Instance.isTurnOnSound = !UIManager.Instance.isTurnOnSound;
+        bool isTurnOnSound = !GameManager.Instance.isTurnOnSound;
+        GameManager.Instance.isTurnOnSound = isTurnOnSound;
+ 
+        if(isTurnOnSound)
+        {
+
+            soundButtonImage.sprite = soundOnImage;
+        } else
+        {
+
+            soundButtonImage.sprite = soundOffImage;
+        }
     }
     public void OpenGameExitAlert()
     {

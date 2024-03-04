@@ -1,6 +1,4 @@
 using System.Collections;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,7 +25,8 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public Constract constract;
-
+    public bool isTurnOnSound = true;
+    
     private AffectionUI affectionUI;
 
     [HideInInspector]
