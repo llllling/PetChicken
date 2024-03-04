@@ -13,7 +13,7 @@ public class StrokingSkill : MonoBehaviour
     /// <summary>
     /// 쓰담쓰담 안하는 경우 지정된 쿨다운 시간마다 점수 감소 여부 체크를 위한 프로퍼티
     /// </summary>
-    private bool IsSubstractAffection => CooldownManager.IsCooldownMultipleElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds);
+    private bool IsSubstractAffection => CooldownManager.IsCooldownElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds) && !IsInvoking(nameof(SubstractAffectionScore));
 
     void Awake()
     {
@@ -24,7 +24,7 @@ public class StrokingSkill : MonoBehaviour
     {
         if (IsSubstractAffection)
         {
-            SubstractAffectionScore();
+            InvokeRepeating(nameof(SubstractAffectionScore), 0f, Constract.Instance.no_stroking_cooldown_seconds);
         }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
@@ -97,6 +97,8 @@ public class StrokingSkill : MonoBehaviour
 
     private void ExecStrokingSkill()
     {
+        CancelSubstractAffctnScore();
+
         chickenControll.ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenControll.affectionPrtcl.Play();
     
@@ -107,11 +109,19 @@ public class StrokingSkill : MonoBehaviour
 
     private void SubstractAffectionScore()
     {
-        Debug.Log("SubstractAffectionScore :");
         GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
         if (chickenControll.IsTransformation)
         {
             chickenControll.ChangeChickenColor();
         }
+    }
+
+    private void CancelSubstractAffctnScore()
+    {
+        if (IsInvoking(nameof(SubstractAffectionScore)))
+        {
+            CancelInvoke(nameof(SubstractAffectionScore));
+        }
+
     }
 }

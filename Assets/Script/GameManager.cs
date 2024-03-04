@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
         affectionScore = Mathf.Max(affectionScore - score, 0);
         SaveAffectionScore(affectionScore);
     }
+ 
     public void ResetAffectionScore()
     {
         PlayerPrefs.DeleteKey(Constract.AFFECTION_SCORE_KEY);
