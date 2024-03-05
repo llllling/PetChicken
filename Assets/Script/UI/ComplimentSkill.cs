@@ -18,6 +18,8 @@ public class ComplimentSkill : MonoBehaviour
 
     public void SendCompliment()
     {
+        GameManager.Instance.PlayButtonSound();
+
         GameManager.Instance.AddAffectionScore(Constract.Instance.compliment_score);
         CooldownManager .SaveCooldown(Constract.COMPLIMENT_COOLTIME_KEY);
 

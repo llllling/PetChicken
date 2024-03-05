@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -10,21 +11,28 @@ public class StrokingSkill : MonoBehaviour
     private readonly float dragCheckOffset = 15f;
     private int dragCount = 0;
     private Vector3 staratDragPos = Vector3.zero;
+    private bool isRepeatingSubstract = false;
     /// <summary>
     /// 쓰담쓰담 안하는 경우 지정된 쿨다운 시간마다 점수 감소 여부 체크를 위한 프로퍼티
     /// </summary>
-    private bool IsSubstractAffection => CooldownManager.IsCooldownElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds) && !IsInvoking(nameof(SubstractAffectionScore));
+    private bool IsSubstractAffection => CooldownManager.IsCooldownElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds) && !isRepeatingSubstract;
 
     void Awake()
     {
         chickenControll = GetComponent<ChickenController>();
     }
 
+    void Start()
+    {
+        InitForSubstractScore();
+    }
+
     void Update()
     {
         if (IsSubstractAffection)
         {
-            InvokeRepeating(nameof(SubstractAffectionScore), 0f, Constract.Instance.no_stroking_cooldown_seconds);
+           isRepeatingSubstract = true;
+           StartCoroutine(RepeatingForSubstract());
         }
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
@@ -64,6 +72,10 @@ public class StrokingSkill : MonoBehaviour
 #endif
 
     }
+    void OnDestroy()
+    {
+        isRepeatingSubstract = false;
+    }
 
     private void OnDragStart(Vector3 inputPosition)
     {
@@ -97,7 +109,7 @@ public class StrokingSkill : MonoBehaviour
 
     private void ExecStrokingSkill()
     {
-        CancelSubstractAffctnScore();
+        isRepeatingSubstract = false;
         chickenControll.affectionPrtcl.Play();
     
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
@@ -107,20 +119,32 @@ public class StrokingSkill : MonoBehaviour
 
     }
 
-    private void SubstractAffectionScore()
+    private void SubstractAffectionScore(int score)
     {
-        GameManager.Instance.SubtractAffectionScore(Constract.Instance.stroking_subtract_score);
+        GameManager.Instance.SubtractAffectionScore(score);
         if (chickenControll.IsTransformation)
         {
             chickenControll.ChangeChickenColor();
         }
     }
-
-    private void CancelSubstractAffctnScore()
+    private void InitForSubstractScore()
     {
-        if (IsInvoking(nameof(SubstractAffectionScore)))
+        int strokingCooltime = CooldownManager.GetDiffSecondsFromCurrentTime(Constract.STROKING_COOLTIME_KEY);
+        int numberOfSubstract = strokingCooltime / Constract.Instance.no_stroking_cooldown_seconds;
+        int totalSubScore = Constract.Instance.stroking_subtract_score * numberOfSubstract;
+        Debug.Log("stroking  = " + strokingCooltime + " totabl = " + totalSubScore + " 몇번 빼야댐 : " + numberOfSubstract);
+        SubstractAffectionScore(totalSubScore);
+    }
+
+    private IEnumerator RepeatingForSubstract()
+    {
+        yield return new WaitForSeconds(Constract.Instance.no_stroking_cooldown_seconds);
+
+        while (isRepeatingSubstract)
         {
-            CancelInvoke(nameof(SubstractAffectionScore));
+            SubstractAffectionScore(Constract.Instance.stroking_subtract_score);
+
+            yield return new WaitForSeconds(Constract.Instance.no_stroking_cooldown_seconds);
         }
 
     }

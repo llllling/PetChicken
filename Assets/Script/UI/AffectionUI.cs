@@ -19,6 +19,8 @@ public class AffectionUI : MonoBehaviour
 
     public void OpenAffectionSkillAlert()
     {
+        GameManager.Instance.PlayButtonSound();
+
         if (affectionSkillAlert.activeSelf) return;
         affectionSkillAlert.SetActive(true);
     }

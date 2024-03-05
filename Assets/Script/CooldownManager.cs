@@ -24,7 +24,22 @@ public class CooldownManager : MonoBehaviour
         return (DateTime.Now - savedTime).TotalSeconds >= coolDownSeconds;
 
     }
+    /// <summary>
+    /// 현재 시간과 저장된 쿨다운 시간차를 초 단위로 반환하는 함수
+    /// </summary>
+    public static int GetDiffSecondsFromCurrentTime(string key)
+    {
+        if (!PlayerPrefs.HasKey(key)) return 0;
 
+        DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+        return (DateTime.Now - savedTime).Seconds;
+    }
+    /// <summary>
+    /// 스킬 발동 후 쿨다운 시간이 얼마나 남았는 지 반환하는 함수
+    /// </summary>
+    /// <param name="key">발동한 스킬의 키</param>
+    /// <param name="coolDownSeconds">비교할 쿨다운 값</param>
+    /// <returns></returns>
     public static string GetRemainedCooldown(string key, int coolDownSeconds)
     {
         if (!PlayerPrefs.HasKey(key)) return "";

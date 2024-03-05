@@ -22,12 +22,16 @@ public class MenuController : MonoBehaviour
 
     public void ToggleMenu()
     {
+        GameManager.Instance.PlayButtonSound();
+
         isOpenMenu = !isOpenMenu;
         menuGroup.SetActive(isOpenMenu);
     }
 
     public void ToggleSound()
     {
+        GameManager.Instance.PlayButtonSound();
+        
         bool isTurnOnSound = !GameManager.Instance.isTurnOnSound;
         GameManager.Instance.isTurnOnSound = isTurnOnSound;
  
@@ -43,16 +47,22 @@ public class MenuController : MonoBehaviour
     }
     public void OpenGameExitAlert()
     {
+        GameManager.Instance.PlayButtonSound();
+
         GameObject endObj = Instantiate(gameEndAlert, FindAnyObjectByType<Canvas>().transform);
         endObj.name = "GameEnd";
     }
     public void GoIntroScene()
     {
+        GameManager.Instance.PlayButtonSound();
+
         SceneManager.LoadScene(Constract.INTRO_SCENE_NAME);
     }
 
     public void OpenGameDescription() {
-     transform.parent.Find("GameDescription").gameObject.SetActive(true);
+        GameManager.Instance.PlayButtonSound();
+
+        transform.parent.Find("GameDescription").gameObject.SetActive(true);
     }
 
    

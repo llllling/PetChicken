@@ -22,6 +22,8 @@ public class AffectionSkillAlert : MonoBehaviour
 
     public void CreateFeed()
     {
+        GameManager.Instance.PlayButtonSound();
+
         if (!CooldownManager .IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds))
         {
             OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
@@ -35,6 +37,8 @@ public class AffectionSkillAlert : MonoBehaviour
 
     public void OpenComplimentAlert()
     {
+        GameManager.Instance.PlayButtonSound();
+
         if (!CooldownManager .IsCooldownElapsed(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds))
         {
             OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);

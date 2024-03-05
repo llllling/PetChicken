@@ -16,6 +16,8 @@ public class XButton : MonoBehaviour
     }
     public void OnClick()
     {
+        GameManager.Instance.PlayButtonSound();
+
         rootParent.SetActive(false);
     }
 }

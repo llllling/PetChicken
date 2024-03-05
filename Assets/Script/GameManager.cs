@@ -23,10 +23,12 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
+    
     [HideInInspector]
     public AudioSource audioSource;
-
+    [SerializeField]
+    private AudioClip buttonClip;
+    
     [HideInInspector]
     public Constract constract;
     public bool isTurnOnSound = true;
@@ -61,6 +63,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        GameManager.Instance.PlayButtonSound();
+
         StartCoroutine(LoadMainScene());
 
     }
@@ -96,9 +100,15 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd()
     {
+        PlayButtonSound();
+
         Application.Quit();
     }
-
+    
+    public void PlayButtonSound()
+    {
+        audioSource.PlayOneShot(buttonClip);
+    }
     private void InitMainScene()
     {
         affectionUI = FindAnyObjectByType<AffectionUI>();

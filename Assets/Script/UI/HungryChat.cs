@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class HungryChat : MonoBehaviour
 {
     private ChickenController chickenControll;
     private RectTransform rectTransform;
-
+    private bool isRepeatingSubstract = true;
    
     void Awake()
     {
@@ -14,8 +15,9 @@ public class HungryChat : MonoBehaviour
     }
     void Start()
     {
-        InvokeRepeating(nameof(SubstractAffectionScore), 0f, Constract.Instance.hungry_cooldown_seconds);
+        InitForSubstractScore();
     }
+
     void Update()
     {
         Transform chickenTransform = chickenControll.transform;
@@ -26,10 +28,7 @@ public class HungryChat : MonoBehaviour
 
     void OnDestroy()
     {
-        if (IsInvoking(nameof(SubstractAffectionScore)))
-        {
-            CancelInvoke(nameof(SubstractAffectionScore));
-        }
+        isRepeatingSubstract = false;
     }
     private void ResizeUI()
     {
@@ -39,14 +38,37 @@ public class HungryChat : MonoBehaviour
 
     }
 
-    private void SubstractAffectionScore()
+    private void SubstractAffectionScore(int score)
     {
-        GameManager.Instance.SubtractAffectionScore(Constract.Instance.feed_subtract_score);
+        GameManager.Instance.SubtractAffectionScore(score);
         if (chickenControll.IsTransformation)
         {
 
             chickenControll.ChangeChickenColor();
         }
 
+    }
+
+    private void InitForSubstractScore()
+    {
+        int feedCoolTime = CooldownManager.GetDiffSecondsFromCurrentTime(Constract.FEED_COOLTIME_KEY);
+        int numberOfSubstract = feedCoolTime / Constract.Instance.hungry_cooldown_seconds;
+        int totalSubScore = Constract.Instance.feed_subtract_score * numberOfSubstract;
+        Debug.Log("feedCoolTime  = " + feedCoolTime + " totabl = " + totalSubScore + " ¸î¹ø »©¾ß´ï : " + numberOfSubstract);
+        SubstractAffectionScore(totalSubScore);
+
+        StartCoroutine(RepeatingForSubstract());
+    }
+    private IEnumerator RepeatingForSubstract()
+    {
+        yield return new WaitForSeconds(Constract.Instance.hungry_cooldown_seconds);
+
+        while (isRepeatingSubstract)
+        {
+            SubstractAffectionScore(Constract.Instance.feed_subtract_score);
+
+            yield return new WaitForSeconds(Constract.Instance.hungry_cooldown_seconds);
+        }
+       
     }
 }
