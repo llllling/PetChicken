@@ -48,11 +48,12 @@ public class MenuController : MonoBehaviour
     }
     public void GoIntroScene()
     {
-        UnityEngine.XR.XRDevice.DisableAutoXRCameraTracking(Camera.main, true);
-        UnityEngine.XR.XRSettings.enabled = false;
-
         SceneManager.LoadScene(Constract.INTRO_SCENE_NAME);
     }
 
-    public void ToggleInfomation(bool isOpen) { }
+    public void OpenGameDescription() {
+     transform.parent.Find("GameDescription").gameObject.SetActive(true);
+    }
+
+   
 }
