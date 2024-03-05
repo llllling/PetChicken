@@ -98,12 +98,12 @@ public class StrokingSkill : MonoBehaviour
     private void ExecStrokingSkill()
     {
         CancelSubstractAffctnScore();
-
-        chickenControll.animationController.ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenControll.affectionPrtcl.Play();
     
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
         CooldownManager .SaveCooldown(Constract.STROKING_COOLTIME_KEY);
+
+        StartCoroutine(chickenControll.animationController.TurnHeadAnimaition());
 
     }
 

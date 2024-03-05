@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -15,7 +16,6 @@ public class ChickenAnimatorController : MonoBehaviour
     private ChickenController chickenControll;
     private string currentParamter = string.Empty;
     private Animator animator;
-
     public ChickenAnimation CurrentAnimation
     {
         get;
@@ -29,13 +29,10 @@ public class ChickenAnimatorController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-     void Start()
+    void Start()
     {
         CurrentAnimation = ChickenAnimation.IDLE;
     }
-
-
-   
     public void ChangeAnimation(ChickenAnimation animation)
     {
         CurrentAnimation = animation;
@@ -64,10 +61,13 @@ public class ChickenAnimatorController : MonoBehaviour
             chickenControll.Transformation();
         }
     }
-
-    public void EndTurnHeadAnimaition()
+    public IEnumerator TurnHeadAnimaition()
     {
-       ChangeAnimation(ChickenAnimation.IDLE);
+        ChangeAnimation(ChickenAnimation.TURN_HEAD);
+
+        yield return new WaitForSeconds(3);
+
+        ChangeAnimation(ChickenAnimation.IDLE);
         if (chickenControll.IsTransformation)
         {
             chickenControll.Transformation();
@@ -93,4 +93,5 @@ public class ChickenAnimatorController : MonoBehaviour
         };
     }
 
+   
 }
