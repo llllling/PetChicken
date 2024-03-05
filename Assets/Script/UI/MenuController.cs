@@ -33,11 +33,11 @@ public class MenuController : MonoBehaviour
  
         if(isTurnOnSound)
         {
-
+            GameManager.Instance.audioSource.mute = false;
             soundButtonImage.sprite = soundOnImage;
         } else
         {
-
+            GameManager.Instance.audioSource.mute = true;
             soundButtonImage.sprite = soundOffImage;
         }
     }

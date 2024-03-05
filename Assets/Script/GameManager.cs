@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -24,6 +25,9 @@ public class GameManager : MonoBehaviour
     }
 
     [HideInInspector]
+    public AudioSource audioSource;
+
+    [HideInInspector]
     public Constract constract;
     public bool isTurnOnSound = true;
     
@@ -39,12 +43,15 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            audioSource = GetComponent<AudioSource>();
             constract = FindAnyObjectByType<Constract>();
             affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) : 0;
             if (SceneManager.GetActiveScene().name == Constract.MAIN_SCENE_NAME)
             {
                 InitMainScene();
             }
+
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
