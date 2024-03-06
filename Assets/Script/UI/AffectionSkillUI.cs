@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AffectionSkillAlert : MonoBehaviour
+public class AffectionSkillUI : MonoBehaviour
 {
 
     [SerializeField]
@@ -13,7 +13,6 @@ public class AffectionSkillAlert : MonoBehaviour
     private const string DEFAULT_COOLTIME_MESSAGE = " 뒤에 \n사용이 가능합니다.";
 
 
-
     void Awake()
     {
         chickenControll = FindAnyObjectByType<ChickenController>();
@@ -24,14 +23,14 @@ public class AffectionSkillAlert : MonoBehaviour
     {
         GameManager.Instance.PlayButtonSound();
 
-        if (!CooldownManager .IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds))
+        if (!CooldownManager.IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds))
         {
-            OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
+            OpenCooldownAlert(CooldownManager.GetRemainedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 
         Instantiate(feedPrefab, chickenControll.transform.position, Quaternion.identity, chickenControll.transform);
-        
+
         gameObject.SetActive(false);
     }
 
@@ -39,9 +38,9 @@ public class AffectionSkillAlert : MonoBehaviour
     {
         GameManager.Instance.PlayButtonSound();
 
-        if (!CooldownManager .IsCooldownElapsed(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds))
+        if (!CooldownManager.IsCooldownElapsed(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds))
         {
-            OpenCooldownAlert(CooldownManager .GetRemainedCooldown(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
+            OpenCooldownAlert(CooldownManager.GetRemainedCooldown(Constract.COMPLIMENT_COOLTIME_KEY, Constract.Instance.compliment_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
             return;
         }
 

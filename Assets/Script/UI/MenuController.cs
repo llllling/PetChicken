@@ -20,6 +20,11 @@ public class MenuController : MonoBehaviour
         menuGroup = transform.Find("MenuGroup").gameObject;
     }
 
+    void Start()
+    {
+        soundButtonImage.sprite = GameManager.Instance.isTurnOnSound ? soundOnImage : soundOffImage;
+    }
+
     public void ToggleMenu()
     {
         GameManager.Instance.PlayButtonSound();

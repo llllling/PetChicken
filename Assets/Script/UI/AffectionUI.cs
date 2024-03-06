@@ -21,6 +21,12 @@ public class AffectionUI : MonoBehaviour
     {
         GameManager.Instance.PlayButtonSound();
 
+        if (!ARTrackedManager.IsCreateChicken)
+        {
+            Alert.Show("닭이 화면에 존재하지 않아서 사용할 수 없습니다.");
+            return;
+        }
+
         if (affectionSkillAlert.activeSelf) return;
         affectionSkillAlert.SetActive(true);
     }
