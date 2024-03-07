@@ -14,6 +14,7 @@ public enum ChickenAnimation
 public class ChickenAnimatorController : MonoBehaviour
 {
     private ChickenController chickenControll;
+    private ChickenVoice chickenVoice;
     private string currentParamter = string.Empty;
     private Animator animator;
     public ChickenAnimation CurrentAnimation
@@ -25,6 +26,7 @@ public class ChickenAnimatorController : MonoBehaviour
 
     void Awake()
     {
+        chickenVoice = GetComponent<ChickenVoice>();
         chickenControll = GetComponent<ChickenController>();
         animator = GetComponent<Animator>();
     }
@@ -44,8 +46,16 @@ public class ChickenAnimatorController : MonoBehaviour
         animator.SetBool(currentParamter, animation != ChickenAnimation.IDLE);
     }
 
+    public void StartEatAniamtion()
+    {
+        ChangeAnimation(ChickenAnimation.EAT);
+        chickenVoice.PlayRepeating(ChickenVoiceType.COMPLIMENT, 3f);
+    }
     public void EndEatAnimation()
     {
+        ChangeAnimation(ChickenAnimation.IDLE);
+        chickenVoice.PlayRepeating();
+
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsTransformation)
         {
@@ -92,6 +102,5 @@ public class ChickenAnimatorController : MonoBehaviour
             _ => currentParamter,
         };
     }
-
    
 }
