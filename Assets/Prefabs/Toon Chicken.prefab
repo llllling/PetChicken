@@ -545,9 +545,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultClip: {fileID: 8300000, guid: 6a56aee3ec54cc64b94bc589b8825438, type: 3}
-  eatClip: {fileID: 8300000, guid: 3f2f18c1493dcc54faab340d2c8496e4, type: 3}
+  eatClip: {fileID: 8300000, guid: 3945306eb83a35142b653f904c62331b, type: 3}
   strokingClip: {fileID: 8300000, guid: 462f32ae632c8e74a8d9e671055e6617, type: 3}
-  complimentClip: {fileID: 8300000, guid: 3945306eb83a35142b653f904c62331b, type: 3}
+  complimentClip: {fileID: 8300000, guid: 3f2f18c1493dcc54faab340d2c8496e4, type: 3}
   tranformClip: {fileID: 8300000, guid: 2aa29624150308c4f947564386d85ad7, type: 3}
   footStepsClip: {fileID: 8300000, guid: e49874f19fdb7114bbf776cb9e5f53c0, type: 3}
   repeatRateForDefault: 3

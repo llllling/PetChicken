@@ -62,9 +62,12 @@ public class ChickenAnimatorController : MonoBehaviour
             chickenControll.Transformation();
         }
     }
+
     public void EndRunAnimation()
     {
         ChangeAnimation(ChickenAnimation.IDLE);
+        chickenVoice.PlayRepeating();
+
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsTransformation)
         {

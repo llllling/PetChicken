@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 3945306eb83a35142b653f904c62331b
-timeCreated: 1499951548
+guid: 3f2f18c1493dcc54faab340d2c8496e4
+timeCreated: 1499951551
 licenseType: Store
 AudioImporter:
   serializedVersion: 6
@@ -25,5 +25,5 @@ AssetOrigin:
   productId: 95444
   packageName: Animals!
   packageVersion: 1.0
-  assetPath: Assets/Animals!/Ogg/Chicken/chicken_male_grunt_01.ogg
+  assetPath: Assets/Animals!/Ogg/Chicken/chicken_grunt_03.ogg
   uploadId: 189685
