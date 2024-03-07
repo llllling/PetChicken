@@ -49,7 +49,7 @@ public class ChickenAnimatorController : MonoBehaviour
     public void StartEatAniamtion()
     {
         ChangeAnimation(ChickenAnimation.EAT);
-        chickenVoice.PlayRepeating(ChickenVoiceType.COMPLIMENT, 3f);
+        chickenVoice.PlayRepeating(ChickenVoiceType.EAT, 3f);
     }
     public void EndEatAnimation()
     {
