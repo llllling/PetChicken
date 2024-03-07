@@ -49,7 +49,7 @@ public class ChickenAnimatorController : MonoBehaviour
     public void StartEatAniamtion()
     {
         ChangeAnimation(ChickenAnimation.EAT);
-        chickenVoice.PlayRepeating(ChickenVoiceType.EAT, 3f);
+        chickenVoice.PlayRepeating(ChickenVoiceType.EAT, 3);
     }
     public void EndEatAnimation()
     {
@@ -77,10 +77,13 @@ public class ChickenAnimatorController : MonoBehaviour
     public IEnumerator TurnHeadAnimaition()
     {
         ChangeAnimation(ChickenAnimation.TURN_HEAD);
+        chickenVoice.PlayRepeating(ChickenVoiceType.STROKING, 3, 0);
 
         yield return new WaitForSeconds(3);
 
         ChangeAnimation(ChickenAnimation.IDLE);
+        chickenVoice.PlayRepeating();
+
         if (chickenControll.IsTransformation)
         {
             chickenControll.Transformation();

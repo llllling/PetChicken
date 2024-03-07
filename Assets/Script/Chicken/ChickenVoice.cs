@@ -43,7 +43,7 @@ public class ChickenVoice : MonoBehaviour
     /// </summary>
     /// <param name="type"></param>
     /// <param name="repeat"></param>
-    public void PlayRepeating(ChickenVoiceType type = ChickenVoiceType.DEFAULT , float repeat = 0)
+    public void PlayRepeating(ChickenVoiceType type = ChickenVoiceType.DEFAULT ,float repeat = 0, float startDuration = 1)
     {
         if (IsInvoking())
         {
@@ -52,7 +52,7 @@ public class ChickenVoice : MonoBehaviour
 
         audioSource.clip = GetClipByChickenVoiceType(type);
 
-        InvokeRepeating(nameof(PlayClip), 1f, repeat != 0 ? repeat :  repeatRateForDefault);
+        InvokeRepeating(nameof(PlayClip), startDuration, repeat != 0 ? repeat :  repeatRateForDefault);
     }
     private void PlayClip()
     {
