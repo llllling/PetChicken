@@ -3,7 +3,7 @@ using UnityEngine;
 public class ChickenMovement : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 0.01f;
+    private float moveSpeed = 0.5f;
     ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 최소 시간</summary>
     [SerializeField]
     private float randomPosMinTime = 5f;
@@ -13,14 +13,16 @@ public class ChickenMovement : MonoBehaviour
     ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 시간</summary>
     private float randomPosTime;
     private float lastTime;
-    private Transform target;
+
+    private Vector3 targetPosition;
 
     private ChickenAnimatorController chickenAnimator;
 
     private bool isExecMoveAnimation = false;
 
-    private bool IsArrideDestination => Vector3.Distance(target.position, transform.position) < 0.01f;
+    private bool IsArrideDestination => Vector3.Distance(targetPosition, transform.position) < 0.1f;
     private bool IsPassedTime => Time.time >= lastTime + randomPosTime;
+    private Vector3 DirectionTowardTarget => (targetPosition - transform.position).normalized;
 
 
     void Awake()
@@ -30,11 +32,11 @@ public class ChickenMovement : MonoBehaviour
     void Start()
     {
         CreateRandomTime();
-        SetRandomPosition();
+        targetPosition = transform.position;
     }
+
     // 일정 시간이 지나면 랜덤 위치로 이동한다.
     //도착하면 애니메이션 대기상태로 바꾸고 
-
     void Update()
     {
         if (IsArrideDestination)
@@ -42,32 +44,42 @@ public class ChickenMovement : MonoBehaviour
             if (IsPassedTime)
             {
                 CreateRandomTime();
-                SetRandomPosition();
+                ReSetRandomPosition();
             }
 
-            if (chickenAnimator.CurrentAnimation != ChickenAnimation.IDLE)
+            if (isExecMoveAnimation)
             {
                 chickenAnimator.ChangeAnimation(ChickenAnimation.IDLE);
                 isExecMoveAnimation = false;
             }
-
-            return;
         }
-
-        if (!isExecMoveAnimation)
+        else
         {
-            Debug.Log("애니메이션 걷는거로 변환");
-            isExecMoveAnimation = true;
-            chickenAnimator.MoveAnimation();
+
+            if (!isExecMoveAnimation)
+            {
+                isExecMoveAnimation = true;
+                chickenAnimator.MoveAnimation();
+                if (chickenAnimator.CurrentAnimation == ChickenAnimation.RUN)
+                {
+                    moveSpeed *= 2;
+                }
+                Rotate();
+
+                return;
+            }
+
+            Move();
         }
-
-        Move();
-
     }
 
-    private void SetRandomPosition()
+    private void ReSetRandomPosition()
     {
-        target = ARTrackedManager.GetRandomPlaneTransform();
+        Transform newTarget = ARTrackedManager.GetRandomPlaneTransform();
+        if (Vector3.Distance(transform.position, newTarget.position) > 1)
+        {
+            targetPosition = newTarget.position;
+        }
     }
 
     private void CreateRandomTime()
@@ -76,20 +88,13 @@ public class ChickenMovement : MonoBehaviour
         randomPosTime = Random.Range(randomPosMinTime, randomPosMaxTime);
     }
 
+    private void Rotate()
+    {
+        transform.rotation = Quaternion.LookRotation(DirectionTowardTarget);
+    }
+
     private void Move()
     {
-        Debug.Log(transform.position + " / " + target.position + " = " + (transform.position == target.position));
-        transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed);
-        RotateTowardsTarget();
+        transform.position += (moveSpeed * Time.deltaTime * DirectionTowardTarget);
     }
-
-    private void RotateTowardsTarget()
-    {
-        Vector3 targetDirection = target.position - transform.position;
-
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.05f * Time.deltaTime);
-    }
-
 }

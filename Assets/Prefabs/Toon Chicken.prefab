@@ -500,14 +500,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2927681391107807654}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b014943ea3ffc4140a2f292a8f15b3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.01
-  randomPosMinTime: 2
-  randomPosMaxTime: 3
+  moveSpeed: 0.5
+  randomPosMinTime: 5
+  randomPosMaxTime: 10
 --- !u!114 &6908360362998954642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +550,6 @@ MonoBehaviour:
   complimentClip: {fileID: 8300000, guid: 3f2f18c1493dcc54faab340d2c8496e4, type: 3}
   tranformClip: {fileID: 8300000, guid: 2aa29624150308c4f947564386d85ad7, type: 3}
   footStepsClip: {fileID: 8300000, guid: e49874f19fdb7114bbf776cb9e5f53c0, type: 3}
-  repeatRateForDefault: 3
 --- !u!1 &3120306548279987391
 GameObject:
   m_ObjectHideFlags: 0
