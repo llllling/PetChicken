@@ -32,7 +32,7 @@ public class CooldownManager : MonoBehaviour
         if (!PlayerPrefs.HasKey(key)) return 0;
 
         DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
-        return (DateTime.Now - savedTime).Seconds;
+        return Mathf.RoundToInt(((float)(DateTime.Now - savedTime).TotalSeconds));
     }
     /// <summary>
     /// 스킬 발동 후 쿨다운 시간이 얼마나 남았는 지 반환하는 함수

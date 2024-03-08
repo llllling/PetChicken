@@ -15,7 +15,7 @@ public class HungryChat : MonoBehaviour
     }
     void Start()
     {
-        InitForSubstractScore();
+      InitForSubstractScore();
     }
 
     void Update()
@@ -38,15 +38,14 @@ public class HungryChat : MonoBehaviour
 
     }
 
-    private void SubstractAffectionScore(int score)
+
+    public void SubstractAffectionScore(int score)
     {
         GameManager.Instance.SubtractAffectionScore(score);
         if (chickenControll.IsTransformation)
         {
-
             chickenControll.ChangeChickenColor();
         }
-
     }
 
     private void InitForSubstractScore()
@@ -54,7 +53,6 @@ public class HungryChat : MonoBehaviour
         int feedCoolTime = CooldownManager.GetDiffSecondsFromCurrentTime(Constract.FEED_COOLTIME_KEY);
         int numberOfSubstract = feedCoolTime / Constract.Instance.hungry_cooldown_seconds;
         int totalSubScore = Constract.Instance.feed_subtract_score * numberOfSubstract;
-        Debug.Log("feedCoolTime  = " + feedCoolTime + " totabl = " + totalSubScore + " ¸î¹ø »©¾ß´ï : " + numberOfSubstract);
         SubstractAffectionScore(totalSubScore);
 
         StartCoroutine(RepeatingForSubstract());

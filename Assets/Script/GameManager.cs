@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             instance = this;
             audioSource = GetComponent<AudioSource>();
             constract = FindAnyObjectByType<Constract>();
-            affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) : 0;
+            affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) + 60000: 0;
             if (SceneManager.GetActiveScene().name == Constract.MAIN_SCENE_NAME)
             {
                 InitMainScene();
@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
     {
         affectionScore = Mathf.Max(affectionScore - score, 0);
         SaveAffectionScore(affectionScore);
+
     }
  
     public void ResetAffectionScore()

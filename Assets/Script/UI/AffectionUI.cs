@@ -5,16 +5,17 @@ public class AffectionUI : MonoBehaviour
 {
     [SerializeField]
     private GameObject affectionSkillAlert;
-    private TMP_Text tmpText;
+    private TMP_Text affectionText;
+
     void Start()
     {
-        tmpText = transform.Find("Text").GetComponent<TMP_Text>();
-        tmpText.text = GameManager.Instance.AffectionScore.ToString();
+        affectionText = transform.Find("Text").GetComponent<TMP_Text>();
+        affectionText.text = GameManager.Instance.AffectionScore.ToString();
     }
 
     public void ChangeText()
     {
-        tmpText.text = GameManager.Instance.AffectionScore.ToString();
+        affectionText.text = GameManager.Instance.AffectionScore.ToString();
     }
 
     public void OpenAffectionSkillAlert()

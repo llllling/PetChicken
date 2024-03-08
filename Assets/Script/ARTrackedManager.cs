@@ -9,7 +9,7 @@ public class ARTrackedManager : MonoBehaviour
 
     private ARPlaneManager planeManager;
     private static List<ARPlane> planes = new ();
-    private bool isCreateChicken = false;
+    public static bool IsCreateChicken { get; private set; } = false;
 
     void Awake()
     {
@@ -29,7 +29,7 @@ public class ARTrackedManager : MonoBehaviour
 
     public void OnTrackablesChanged(ARPlanesChangedEventArgs changes)
     {
-        if (planes.Count > 0 && !isCreateChicken)
+        if (planes.Count > 0 && !IsCreateChicken)
         {
             CreateChicken();
         }
@@ -52,7 +52,7 @@ public class ARTrackedManager : MonoBehaviour
     private void CreateChicken()
     {
         Transform planeTransform = GetRandomPlaneTransform();
-        isCreateChicken = true;
+        IsCreateChicken = true;
         Instantiate(chickenPrefab, planeTransform.position, planeTransform.rotation);
     }
 }

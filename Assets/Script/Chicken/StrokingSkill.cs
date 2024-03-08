@@ -24,7 +24,7 @@ public class StrokingSkill : MonoBehaviour
 
     void Start()
     {
-        InitForSubstractScore();
+      InitForSubstractScore();
     }
 
     void Update()
@@ -119,7 +119,7 @@ public class StrokingSkill : MonoBehaviour
 
     }
 
-    private void SubstractAffectionScore(int score)
+    public void SubstractAffectionScore(int score)
     {
         GameManager.Instance.SubtractAffectionScore(score);
         if (chickenControll.IsTransformation)
@@ -127,12 +127,12 @@ public class StrokingSkill : MonoBehaviour
             chickenControll.ChangeChickenColor();
         }
     }
+
     private void InitForSubstractScore()
     {
         int strokingCooltime = CooldownManager.GetDiffSecondsFromCurrentTime(Constract.STROKING_COOLTIME_KEY);
         int numberOfSubstract = strokingCooltime / Constract.Instance.no_stroking_cooldown_seconds;
         int totalSubScore = Constract.Instance.stroking_subtract_score * numberOfSubstract;
-        Debug.Log("stroking  = " + strokingCooltime + " totabl = " + totalSubScore + " ¸î¹ø »©¾ß´ï : " + numberOfSubstract);
         SubstractAffectionScore(totalSubScore);
     }
 
