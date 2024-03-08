@@ -39,17 +39,14 @@ public class ChickenVoice : MonoBehaviour
     }
     
     /// <summary>
-    /// 매개변수로 넘어온 voice 타입을 repeat(초) 텀으로 소리를 실행한다. 기본 voice 타입과 repeat는 닭의 default 울음 소리
+    /// 매개변수로 넘어온 voice 타입을 repeat(초) 텀으로 소리를 실행한다.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="repeat"></param>
     public void PlayRepeating(ChickenVoiceType type = ChickenVoiceType.DEFAULT ,float repeat = 0, float startDuration = 1)
     {
         if (IsInvoking())
         {
             CancelInvoke();
         }
-
         audioSource.clip = GetClipByChickenVoiceType(type);
 
         InvokeRepeating(nameof(PlayClip), startDuration, repeat != 0 ? repeat :  repeatRateForDefault);

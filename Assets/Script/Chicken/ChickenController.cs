@@ -9,7 +9,8 @@ public class ChickenController : MonoBehaviour
 
     [HideInInspector]
     public ChickenAnimatorController animationController;
-
+    [HideInInspector]
+    public ChickenVoice voice;
     [HideInInspector]
     public ParticleSystem affectionPrtcl;
 
@@ -40,14 +41,15 @@ public class ChickenController : MonoBehaviour
 
     void Awake()
     {
-        animationController = GetComponent<ChickenAnimatorController>();
-        collider = GetComponent<Collider>();
-        
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
     }
     void Start()
     {
+        animationController = GetComponent<ChickenAnimatorController>();
+        collider = GetComponent<Collider>();
+        voice = GetComponent<ChickenVoice>();
+
         ChangeChickenColor();
     }
 
@@ -74,6 +76,7 @@ public class ChickenController : MonoBehaviour
     /// </summary>
     public void Transformation()
     {
+        voice.PlayRepeating(ChickenVoiceType.TRANSFORM, 2, 0);
         StartCoroutine(TransformationCoroutine());
     }
 
