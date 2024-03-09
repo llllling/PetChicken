@@ -15,7 +15,8 @@ public class ChickenMovement : MonoBehaviour
     private float lastTime;
 
     private Vector3 targetPosition;
-
+    private Vector3 initRotation;
+    
     private ChickenAnimatorController chickenAnimator;
 
     private bool isExecMoveAnimation = false;
@@ -33,6 +34,7 @@ public class ChickenMovement : MonoBehaviour
     {
         CreateRandomTime();
         targetPosition = transform.position;
+        initRotation = transform.rotation.eulerAngles;
     }
 
     // 일정 시간이 지나면 랜덤 위치로 이동한다.
@@ -49,6 +51,7 @@ public class ChickenMovement : MonoBehaviour
 
             if (isExecMoveAnimation)
             {
+                SetInitRotation();
                 chickenAnimator.ChangeAnimation(ChickenAnimation.IDLE);
                 isExecMoveAnimation = false;
             }
@@ -96,5 +99,10 @@ public class ChickenMovement : MonoBehaviour
     private void Move()
     {
         transform.position += (moveSpeed * Time.deltaTime * DirectionTowardTarget);
+    }
+
+    private void SetInitRotation()
+    {
+        transform.rotation = Quaternion.Euler(initRotation);
     }
 }
