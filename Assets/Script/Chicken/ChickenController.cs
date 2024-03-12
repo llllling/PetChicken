@@ -16,8 +16,6 @@ public class ChickenController : MonoBehaviour
 
     private ParticleSystem transformationPrtcl;
 
-    [SerializeField]
-    private GameObject hungryPrefab;
     private GameObject hungryChat;
 
     private bool isShowHungryChat = false;
@@ -41,15 +39,15 @@ public class ChickenController : MonoBehaviour
 
     void Awake()
     {
-        affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
-        transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
+        hungryChat = FindAnyObjectByType<Canvas>().transform.Find("HungryChat").gameObject;
     }
     void Start()
     {
+        affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
+        transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
         animationController = GetComponent<ChickenAnimatorController>();
         collider = GetComponent<Collider>();
         voice = GetComponent<ChickenVoice>();
-
         ChangeChickenColor();
     }
 
@@ -58,7 +56,7 @@ public class ChickenController : MonoBehaviour
         if (IsCreateHungryChat)
         {
             isShowHungryChat = true;
-            CreateHungryChat();
+            ShowHungryChat();
         }
 
     }
@@ -120,14 +118,15 @@ public class ChickenController : MonoBehaviour
         modelRenderer.material = newMaterial;
     }
 
-    private void CreateHungryChat()
+    private void ShowHungryChat()
     {
-        hungryChat = Instantiate(hungryPrefab, FindAnyObjectByType<Canvas>().transform);
-        hungryChat.name = "HungryChat";
+        hungryChat.SetActive(true);
+        hungryChat.transform.position = FindAnyObjectByType<Canvas>().transform.position;
+       
     }
-    public void DestroyHungryChat()
+    public void HideHungryChat()
     {
-        Destroy(hungryChat);
+        hungryChat.SetActive(false);
         isShowHungryChat = false;
     }
 }

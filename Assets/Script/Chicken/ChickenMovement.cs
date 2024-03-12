@@ -3,7 +3,9 @@ using UnityEngine;
 public class ChickenMovement : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 0.5f;
+    private float walkSpeed = 0.4f;
+    [SerializeField]
+    private float runSpeed = 0.8f;
     ///<summary> 애완 닭이 랜덤의 위치로 이동하기 위해 위치 재설정 최소 시간</summary>
     [SerializeField]
     private float randomPosMinTime = 5f;
@@ -14,6 +16,7 @@ public class ChickenMovement : MonoBehaviour
     private float randomPosTime;
     private float lastTime;
 
+    private float moveSpeed;
     private Vector3 targetPosition;
     private Vector3 initRotation;
     
@@ -24,6 +27,7 @@ public class ChickenMovement : MonoBehaviour
     private bool IsArrideDestination => Vector3.Distance(targetPosition, transform.position) < 0.1f;
     private bool IsPassedTime => Time.time >= lastTime + randomPosTime;
     private Vector3 DirectionTowardTarget => (targetPosition - transform.position).normalized;
+    private bool IsEnableMove => !(chickenAnimator.CurrentAnimation == ChickenAnimation.EAT || chickenAnimator.CurrentAnimation == ChickenAnimation.TURN_HEAD);
 
 
     void Awake()
@@ -41,6 +45,8 @@ public class ChickenMovement : MonoBehaviour
     //도착하면 애니메이션 대기상태로 바꾸고 
     void Update()
     {
+        if (!IsEnableMove) return;
+
         if (IsArrideDestination)
         {
             if (IsPassedTime)
@@ -63,13 +69,8 @@ public class ChickenMovement : MonoBehaviour
             {
                 isExecMoveAnimation = true;
                 chickenAnimator.MoveAnimation();
-                if (chickenAnimator.CurrentAnimation == ChickenAnimation.RUN)
-                {
-                    moveSpeed *= 2;
-                }
+                moveSpeed = chickenAnimator.CurrentAnimation == ChickenAnimation.WALK ? walkSpeed : runSpeed;
                 Rotate();
-
-                return;
             }
 
             Move();

@@ -24,7 +24,7 @@ public class FeedSkill : MonoBehaviour
 
         if (chickenControll.IsShowHungryChat)
         {
-            chickenControll.DestroyHungryChat();
+            chickenControll.HideHungryChat();
         }
     }
 

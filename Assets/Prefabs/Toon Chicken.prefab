@@ -505,9 +505,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b014943ea3ffc4140a2f292a8f15b3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  randomPosMinTime: 5
-  randomPosMaxTime: 10
+  moveSpeed: 0.3
+  randomPosMinTime: 2
+  randomPosMaxTime: 3
 --- !u!114 &6908360362998954642
 MonoBehaviour:
   m_ObjectHideFlags: 0
