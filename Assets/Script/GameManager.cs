@@ -1,6 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -23,16 +21,16 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    
+
     [HideInInspector]
     public AudioSource audioSource;
     [SerializeField]
     private AudioClip buttonClip;
-    
+
     [HideInInspector]
     public Constract constract;
     public bool isTurnOnSound = true;
-    
+
     private AffectionUI affectionUI;
 
     [HideInInspector]
@@ -48,10 +46,6 @@ public class GameManager : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
             constract = FindAnyObjectByType<Constract>();
             affectionScore = PlayerPrefs.HasKey(Constract.AFFECTION_SCORE_KEY) ? PlayerPrefs.GetInt(Constract.AFFECTION_SCORE_KEY) : 0;
-            if (SceneManager.GetActiveScene().name == Constract.MAIN_SCENE_NAME)
-            {
-                InitMainScene();
-            }
 
             DontDestroyOnLoad(gameObject);
         }
@@ -61,16 +55,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator LoadMainScene()
+    public void LoadMainScene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Constract.MAIN_SCENE_NAME);
+       SceneManager.LoadSceneAsync(Constract.MAIN_SCENE_NAME);
+    }
 
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-
-        InitMainScene();
+    public void LoadIntroScene()
+    {
+        SceneManager.LoadScene(Constract.INTRO_SCENE_NAME);
+        audioSource.Stop();
+        audioSource.Play();
     }
 
     public void AddAffectionScore(int score)
@@ -85,7 +79,7 @@ public class GameManager : MonoBehaviour
         SaveAffectionScore(affectionScore);
 
     }
- 
+
     public void ResetAffectionScore()
     {
         PlayerPrefs.DeleteKey(Constract.AFFECTION_SCORE_KEY);
@@ -107,13 +101,14 @@ public class GameManager : MonoBehaviour
     {
         audioSource.PlayOneShot(buttonClip);
     }
-    private void InitMainScene()
-    {
-        affectionUI = FindAnyObjectByType<AffectionUI>();
-    }
+
     private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
+        if (affectionUI == null)
+        {
+            affectionUI = FindAnyObjectByType<AffectionUI>();
+        }
         affectionUI.ChangeText();
     }
 

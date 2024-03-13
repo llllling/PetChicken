@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 
@@ -40,7 +39,6 @@ public class ChickenAnimatorController : MonoBehaviour
     // 그외의 애니메이션은 true
     public void ChangeAnimation(ChickenAnimation animation)
     {
-        Debug.Log("ChangeAnimation :" + CurrentAnimation + " > "+ animation.ToString() + Time.time);
         if (currentParamter != string.Empty)
         {
             animator.SetBool(currentParamter, false);
@@ -74,7 +72,6 @@ public class ChickenAnimatorController : MonoBehaviour
         chickenControll.status = ChickenStatus.NONE;
         ChangeAnimation(ChickenAnimation.IDLE);
         chickenVoice.PlayRepeating();
-
         chickenControll.affectionPrtcl.Play();
         if (chickenControll.IsTransformation)
         {

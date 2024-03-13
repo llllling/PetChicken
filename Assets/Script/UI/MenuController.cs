@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
@@ -55,7 +54,7 @@ public class MenuController : MonoBehaviour
     {
         GameManager.Instance.PlayButtonSound();
 
-        StartCoroutine(GameManager.Instance.LoadMainScene());
+        GameManager.Instance.LoadMainScene();
 
     }
 
@@ -70,8 +69,7 @@ public class MenuController : MonoBehaviour
     public void GoIntroScene()
     {
         GameManager.Instance.PlayButtonSound();
-
-        SceneManager.LoadScene(Constract.INTRO_SCENE_NAME);
+        GameManager.Instance.LoadIntroScene();
     }
 
     public void OpenGameDescription() {

@@ -97,7 +97,8 @@ public class ChickenController : MonoBehaviour
         transformationPrtcl.Play();
 
         yield return new WaitForSeconds(main.duration);
- 
+
+        voice.PlayRepeating();
         ChangeChickenBodyColor(chickenColor);
     }
 
