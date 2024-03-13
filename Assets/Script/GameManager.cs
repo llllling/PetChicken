@@ -61,14 +61,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        GameManager.Instance.PlayButtonSound();
-
-        StartCoroutine(LoadMainScene());
-
-    }
-    IEnumerator LoadMainScene()
+    public IEnumerator LoadMainScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Constract.MAIN_SCENE_NAME);
 
@@ -117,9 +110,8 @@ public class GameManager : MonoBehaviour
     private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
+        Debug.Log("affectionUI  :" + affectionUI);
         affectionUI.ChangeText();
     }
-
-
 
 }

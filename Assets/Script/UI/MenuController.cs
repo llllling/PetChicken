@@ -50,6 +50,15 @@ public class MenuController : MonoBehaviour
             soundButtonImage.sprite = soundOffImage;
         }
     }
+
+    public void StartGame()
+    {
+        GameManager.Instance.PlayButtonSound();
+
+        StartCoroutine(GameManager.Instance.LoadMainScene());
+
+    }
+
     public void OpenGameExitAlert()
     {
         GameManager.Instance.PlayButtonSound();
