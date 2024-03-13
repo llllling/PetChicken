@@ -76,7 +76,7 @@ public class ChickenVoice : MonoBehaviour
                 audioSource.Play();
             }
 
-            yield return new WaitForSeconds(Random.Range(3f, 7f));
+            yield return new WaitForSeconds(Random.Range(5f, 10f));
         }
     }
 
