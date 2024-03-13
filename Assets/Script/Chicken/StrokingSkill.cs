@@ -16,7 +16,7 @@ public class StrokingSkill : MonoBehaviour
     /// 쓰담쓰담 안하는 경우 지정된 쿨다운 시간마다 점수 감소 여부 체크를 위한 프로퍼티
     /// </summary>
     private bool IsSubstractAffection => CooldownManager.IsCooldownElapsed(Constract.STROKING_COOLTIME_KEY, Constract.Instance.no_stroking_cooldown_seconds) && !isRepeatingSubstract;
-
+    private bool IsUseSkill => !(chickenControll.status == ChickenStatus.NONE);
     void Awake()
     {
         chickenControll = GetComponent<ChickenController>();
@@ -34,6 +34,8 @@ public class StrokingSkill : MonoBehaviour
            isRepeatingSubstract = true;
            StartCoroutine(RepeatingForSubstract());
         }
+        if (!IsUseSkill) return;
+
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))
         {
@@ -115,9 +117,19 @@ public class StrokingSkill : MonoBehaviour
         GameManager.Instance.AddAffectionScore(Constract.Instance.stroking_add_score);
         CooldownManager .SaveCooldown(Constract.STROKING_COOLTIME_KEY);
 
-        StartCoroutine(chickenControll.animationController.TurnHeadAnimaition());
+        StartCoroutine(TurnHeadAnimaition());
 
     }
+
+    public IEnumerator TurnHeadAnimaition()
+    {
+        chickenControll.animationController.StartTurnHeadAnimaition();
+        
+        yield return new WaitForSeconds(3);
+
+        chickenControll.animationController.EndTurnHeadAnimation();
+    }
+
 
     public void SubstractAffectionScore(int score)
     {

@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ComplimentSkill : MonoBehaviour
@@ -29,14 +28,12 @@ public class ComplimentSkill : MonoBehaviour
 
     private IEnumerator ExecComplimentAnimation()
     {
-        chickenControll.animationController.ChangeAnimation(ChickenAnimation.RUN);
-        chickenControll.voice.PlayRepeating(ChickenVoiceType.COMPLIMENT, 2f);
-
+        chickenControll.animationController.StartComplimentAnimaition();
         InactiveComplimentChild();
 
         yield return new WaitForSeconds(5);
 
-        chickenControll.animationController.EndRunAnimation();
+        chickenControll.animationController.EndAnimation();
         gameObject.SetActive(false);
     }
 

@@ -704,8 +704,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 434329072}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 7074535424492679973}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -1787,6 +1787,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1595511145741950634}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7074535424492679973 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4107828280962686043, guid: 7df4965360b9ba04cbb81640d7a43888,
+    type: 3}
+  m_PrefabInstance: {fileID: 1595511145741950634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c753d256cee61a2479fec236fa4c0448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

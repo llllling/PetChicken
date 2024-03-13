@@ -45,14 +45,25 @@ public class ChickenAnimatorController : MonoBehaviour
         // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
         animator.SetBool(currentParamter, animation != ChickenAnimation.IDLE);
     }
-
+  
     public void StartEatAniamtion()
     {
+        chickenControll.status = ChickenStatus.EAT;
         ChangeAnimation(ChickenAnimation.EAT);
         chickenVoice.PlayRepeating(ChickenVoiceType.EAT, 3);
     }
-    public void EndEatAnimation()
+
+    public void StartComplimentAnimaition()
     {
+        chickenControll.status = ChickenStatus.COMPLIMENT;
+        ChangeAnimation(ChickenAnimation.RUN);
+        chickenVoice.PlayRepeating(ChickenVoiceType.COMPLIMENT, 3, 0);
+    }
+
+
+    public void EndAnimation()
+    {
+        chickenControll.status = ChickenStatus.NONE;
         ChangeAnimation(ChickenAnimation.IDLE);
         chickenVoice.PlayRepeating();
 
@@ -63,24 +74,17 @@ public class ChickenAnimatorController : MonoBehaviour
         }
     }
 
-    public void EndRunAnimation()
+    public void StartTurnHeadAnimaition()
     {
-        ChangeAnimation(ChickenAnimation.IDLE);
-        chickenVoice.PlayRepeating();
-
-        chickenControll.affectionPrtcl.Play();
-        if (chickenControll.IsTransformation)
-        {
-            chickenControll.Transformation();
-        }
-    }
-    public IEnumerator TurnHeadAnimaition()
-    {
+        chickenControll.status = ChickenStatus.STROKING;
         ChangeAnimation(ChickenAnimation.TURN_HEAD);
         chickenVoice.PlayRepeating(ChickenVoiceType.STROKING, 3, 0);
+    }
 
-        yield return new WaitForSeconds(3);
+    public void EndTurnHeadAnimation()
+    {
 
+        chickenControll.status = ChickenStatus.NONE;
         ChangeAnimation(ChickenAnimation.IDLE);
         chickenVoice.PlayRepeating();
 
@@ -88,6 +92,7 @@ public class ChickenAnimatorController : MonoBehaviour
         {
             chickenControll.Transformation();
         }
+
     }
 
     public void MoveAnimation()

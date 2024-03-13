@@ -17,7 +17,6 @@ public class FeedSkill : MonoBehaviour
 
     private void ExecFeedSkill()
     {
-
         chickenControll.animationController.StartEatAniamtion();
         GameManager.Instance.AddAffectionScore(Constract.Instance.feed_add_score);
         CooldownManager .SaveCooldown(Constract.FEED_COOLTIME_KEY);
@@ -30,7 +29,7 @@ public class FeedSkill : MonoBehaviour
 
     public void FeedAnimationEndEvent()
     {
-        chickenControll.animationController.EndEatAnimation();
+        chickenControll.animationController.EndAnimation();
         Destroy(gameObject);
     }
 

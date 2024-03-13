@@ -2,10 +2,18 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+public enum ChickenStatus
+{
+    NONE,
+    EAT,
+    COMPLIMENT,
+    STROKING
+}
 public class ChickenController : MonoBehaviour
 {
     public Renderer modelRenderer;
     public ChickenColors chickenColor;
+    public ChickenStatus status;
 
     [HideInInspector]
     public ChickenAnimatorController animationController;
@@ -43,6 +51,8 @@ public class ChickenController : MonoBehaviour
     }
     void Start()
     {
+        status = ChickenStatus.NONE;
+
         affectionPrtcl = transform.Find("AffectionParticle").gameObject.GetComponent<ParticleSystem>();
         transformationPrtcl = transform.Find("TransformParticle").gameObject.GetComponent<ParticleSystem>();
         animationController = GetComponent<ChickenAnimatorController>();
@@ -92,7 +102,7 @@ public class ChickenController : MonoBehaviour
     }
 
     /// <summary>
-    /// 애완닭의 몸통색을 레벨에 맞게 변환시키는 함수로 레벨 1이상이면 이전 레벨과 다음 레벨 사이의 중간색으로 몸통색을 변환 시키는 함수
+    /// 닭의 몸통색을 레벨에 맞게 변환시키는 함수로 레벨 1이상이면 이전 레벨과 다음 레벨 사이의 중간색으로 몸통색을 변환 시키는 함수
     /// </summary>
     private void ChangeChickenBodyColor(ChickenColors chickenColor)
     {
