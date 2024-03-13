@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum ChickenStatus
 {
-    NONE,
     EAT,
     COMPLIMENT,
-    STROKING
+    STROKING,
+    NONE
 }
 public class ChickenController : MonoBehaviour
 {

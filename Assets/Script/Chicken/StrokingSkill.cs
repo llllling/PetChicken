@@ -34,7 +34,13 @@ public class StrokingSkill : MonoBehaviour
            isRepeatingSubstract = true;
            StartCoroutine(RepeatingForSubstract());
         }
-        if (!IsUseSkill) return;
+
+        if (IsUseSkill)
+        {
+            dragCount = 0;
+            staratDragPos = Vector3.zero;
+            return;
+        }
 
 #if UNITY_EDITOR || UNITY_STANDALONE
         if (Input.GetMouseButtonDown(0))

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class ChickenMovement : MonoBehaviour
@@ -20,18 +21,19 @@ public class ChickenMovement : MonoBehaviour
     private Vector3 targetPosition;
     private Vector3 initRotation;
     
+    private ChickenController chickenControll;
     private ChickenAnimatorController chickenAnimator;
 
-    private bool isExecMoveAnimation = false;
-
+    private bool isMoveStatus = false;
+    private bool IsUsingSkill => chickenControll.status != ChickenStatus.NONE;
     private bool IsArrideDestination => Vector3.Distance(targetPosition, transform.position) < 0.1f;
     private bool IsPassedTime => Time.time >= lastTime + randomPosTime;
     private Vector3 DirectionTowardTarget => (targetPosition - transform.position).normalized;
-    private bool IsEnableMove => !(chickenAnimator.CurrentAnimation == ChickenAnimation.EAT || chickenAnimator.CurrentAnimation == ChickenAnimation.TURN_HEAD);
 
 
     void Awake()
     {
+        chickenControll = GetComponent<ChickenController>();
         chickenAnimator = GetComponent<ChickenAnimatorController>();
     }
     void Start()
@@ -45,8 +47,19 @@ public class ChickenMovement : MonoBehaviour
     //도착하면 애니메이션 대기상태로 바꾸고 
     void Update()
     {
-        if (!IsEnableMove) return;
+        if (IsUsingSkill)
+        {
+            if (isMoveStatus)
+            {
+                targetPosition = transform.position;
+                isMoveStatus = false;
+                SetInitRotation();
+            }
 
+            lastTime = Time.time;
+            return;
+        }
+        
         if (IsArrideDestination)
         {
             if (IsPassedTime)
@@ -54,20 +67,19 @@ public class ChickenMovement : MonoBehaviour
                 CreateRandomTime();
                 ReSetRandomPosition();
             }
-
-            if (isExecMoveAnimation)
+            if (isMoveStatus)
             {
+                isMoveStatus = false;
                 SetInitRotation();
                 chickenAnimator.ChangeAnimation(ChickenAnimation.IDLE);
-                isExecMoveAnimation = false;
             }
         }
         else
         {
 
-            if (!isExecMoveAnimation)
+            if (!isMoveStatus)
             {
-                isExecMoveAnimation = true;
+                isMoveStatus = true;
                 chickenAnimator.MoveAnimation();
                 moveSpeed = chickenAnimator.CurrentAnimation == ChickenAnimation.WALK ? walkSpeed : runSpeed;
                 Rotate();

@@ -65,6 +65,7 @@ public class MenuController : MonoBehaviour
 
         GameObject endObj = Instantiate(gameEndAlert, FindAnyObjectByType<Canvas>().transform);
         endObj.name = "GameEnd";
+
     }
     public void GoIntroScene()
     {

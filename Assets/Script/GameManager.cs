@@ -96,9 +96,13 @@ public class GameManager : MonoBehaviour
     {
         PlayButtonSound();
 
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
-    
+
     public void PlayButtonSound()
     {
         audioSource.PlayOneShot(buttonClip);
@@ -110,7 +114,6 @@ public class GameManager : MonoBehaviour
     private void SaveAffectionScore(int affectionScore)
     {
         PlayerPrefs.SetInt(Constract.AFFECTION_SCORE_KEY, affectionScore);
-        Debug.Log("affectionUI  :" + affectionUI);
         affectionUI.ChangeText();
     }
 

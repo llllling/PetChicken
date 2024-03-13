@@ -35,15 +35,23 @@ public class ChickenAnimatorController : MonoBehaviour
     {
         CurrentAnimation = ChickenAnimation.IDLE;
     }
+
+    //idel => 모든걸 false 
+    // 그외의 애니메이션은 true
     public void ChangeAnimation(ChickenAnimation animation)
     {
+        Debug.Log("ChangeAnimation :" + CurrentAnimation + " > "+ animation.ToString() + Time.time);
+        if (currentParamter != string.Empty)
+        {
+            animator.SetBool(currentParamter, false);
+        }
+
         CurrentAnimation = animation;
+
+        if (animation == ChickenAnimation.IDLE) return;
+
         currentParamter = GetParamterNameByAnimation(animation);
-
-        if (currentParamter == string.Empty) return;
-
-        // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
-        animator.SetBool(currentParamter, animation != ChickenAnimation.IDLE);
+        animator.SetBool(currentParamter, true);
     }
   
     public void StartEatAniamtion()
