@@ -40,6 +40,15 @@ public class ChickenMovement : MonoBehaviour
     {
         CreateRandomTime();
         targetPosition = transform.position;
+
+
+        Vector3 direction = (Camera.main.transform.position - transform.position).normalized;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction); //방향 벡터를 회전에 필요한 쿼터니언으로 변환
+            transform.rotation = Quaternion.Euler(0f, rotation.eulerAngles.y, 0f);
+        }
         initRotation = transform.rotation.eulerAngles;
     }
 

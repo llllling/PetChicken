@@ -8,14 +8,18 @@ public class ARTrackedManager : MonoBehaviour
     private GameObject chickenPrefab;
 
     private ARPlaneManager planeManager;
-    private static List<ARPlane> planes = new ();
+    private static List<ARPlane> planes;
     public static bool IsCreateChicken { get; private set; } = false;
 
     void Awake()
     {
         planeManager = GetComponent<ARPlaneManager>();
+    }
 
-
+     void Start()
+    {
+        planes = new List<ARPlane>();
+        IsCreateChicken = false;
     }
     void OnEnable()
     {
