@@ -56,16 +56,16 @@ public class Constract : ScriptableObject
         level_black = 64000;
 
         feed_add_score = 50;
-        feed_subtract_score = 10; //바꿔
-        feed_cooldown_seconds = 3; //바꿔
-        hungry_cooldown_seconds = 5; //43200; //12시간
+        feed_subtract_score = 10; //1000;
+        feed_cooldown_seconds = 10; //14400; //4시간
+        hungry_cooldown_seconds = 60; //43200; //12시간
 
         stroking_add_score = 10;
-        stroking_subtract_score = 1; //바꿔
-        no_stroking_cooldown_seconds = 5;  //바꿔
+        stroking_subtract_score = 50; 
+        no_stroking_cooldown_seconds = 28800; //8시간
 
         compliment_score = 100;
-        compliment_cooldown_seconds = 3;  //바꿔
+        compliment_cooldown_seconds = 10; //14400;  //4시간
 
     }
 
