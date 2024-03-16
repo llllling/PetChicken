@@ -28,8 +28,6 @@ public class Alert : MonoBehaviour
 
     public static void Show(string message)
     {
-        GameManager.Instance.PlayButtonSound();
-
         FindAnyObjectByType<Canvas>().transform.Find("Alert").gameObject.SetActive(true);
         instance.tmpText.text = message;
     }

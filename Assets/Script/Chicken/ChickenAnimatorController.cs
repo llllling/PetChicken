@@ -35,10 +35,9 @@ public class ChickenAnimatorController : MonoBehaviour
         CurrentAnimation = ChickenAnimation.IDLE;
     }
 
-    //idel => 모든걸 false 
-    // 그외의 애니메이션은 true
     public void ChangeAnimation(ChickenAnimation animation)
     {
+        //기존 실행되던 애니메이션이 있다면 false처리
         if (currentParamter != string.Empty)
         {
             animator.SetBool(currentParamter, false);
@@ -46,6 +45,7 @@ public class ChickenAnimatorController : MonoBehaviour
 
         CurrentAnimation = animation;
 
+        //idle은 모든 애니메이션 false일때의 상태
         if (animation == ChickenAnimation.IDLE) return;
 
         currentParamter = GetParamterNameByAnimation(animation);

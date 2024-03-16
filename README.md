@@ -80,7 +80,7 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
 
 ## 프로젝트하면서 고민한 점 
 * 반려닭 애니메이션이 Idle, Walk, Run, Eat, Turn Head 4가지가 있고,  Walk, Run, Eat, Turn Head 4가지 bool 타입 파라미터가 있다. 4가지 파라미터가 false일 경우 전부 Idle로 애니메이션이 전이된다. 
-    * 결론적으로 Idle로 전이하려면 => SetBool(실행되던 애니메이션의 파라미터명, false) 
+    * 현재 실행중인 애니메이션과 매칭되는 파라미터를 관리하기 위해 클래스를 만들어서 애니메이션 관리
     * ChickenAnimator.cs
     ```c#
     /*
@@ -103,16 +103,24 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
             animator = GetComponent<Animator>();
         }
 
-   
-        public void OnAnimation(ChickenAnimation currentAnimation)
+       //..코드 생략
+        public void ChangeAnimation(ChickenAnimation animation)
         {
-            currentParamter = GetParamterNameByAnimation(currentAnimation);
-            if (currentParamter == string.Empty) return;
+            //기존 실행되던 애니메이션이 있다면 false처리
+            if (currentParamter != string.Empty)
+            {
+                animator.SetBool(currentParamter, false);
+            }
 
-            // IDLE일 경우 : (실행되던 애니메이션 파라미터명,  false)
-            animator.SetBool(GetParamterNameByAnimation(currentAnimation), currentAnimation != ChickenAnimation.IDLE);
+            CurrentAnimation = animation;
+
+            //idle은 모든 애니메이션 false일때의 상태
+            if (animation == ChickenAnimation.IDLE) return;
+
+            currentParamter = GetParamterNameByAnimation(animation);
+            animator.SetBool(currentParamter, true);
         }
-
+         //..코드 생략
         private string GetParamterNameByAnimation(ChickenAnimation currentAnimation)
         {
             return currentAnimation switch
@@ -164,7 +172,7 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
         RED,
         BLACK
     }   
-    public static class ChickenColor
+   public static class ChickenColor
     {
         /// <summary>
         /// 인자로 넘어온 애정도 점수에 해당하는 ChickenColors 열거형 타입의 값을 반환하는 함수
@@ -173,13 +181,13 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
         {
             return affection switch
             {
-                int n when (n <= Constract.level_white) => ChickenColors.WHITE,
-                int n when (n <= Constract.level_yellow) => ChickenColors.YELLOW,
-                int n when (n <= Constract.level_green) => ChickenColors.GREEN,
-                int n when (n <= Constract.level_blue) => ChickenColors.BLUE,
-                int n when (n <= Constract.level_purple) => ChickenColors.PURPLE,
-                int n when (n <= Constract.level_red) => ChickenColors.RED,
-                _ => ChickenColors.BLACK,
+                int n when (n >= Constract.Instance.level_black) => ChickenColors.BLACK,
+                int n when (n >= Constract.Instance.level_red) => ChickenColors.RED,
+                int n when (n >= Constract.Instance.level_purple) => ChickenColors.PURPLE,
+                int n when (n >= Constract.Instance.level_blue) => ChickenColors.BLUE,
+                int n when (n >= Constract.Instance.level_green) => ChickenColors.GREEN,
+                int n when (n >= Constract.Instance.level_yellow) => ChickenColors.YELLOW,
+                _ => ChickenColors.WHITE,
             };
         }
 
@@ -190,13 +198,13 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
         {
             return chickenColor switch
             {
-                ChickenColors.WHITE => Constract.level_white,
-                ChickenColors.YELLOW => Constract.level_yellow,
-                ChickenColors.GREEN => Constract.level_green,
-                ChickenColors.BLUE => Constract.level_blue,
-                ChickenColors.PURPLE => Constract.level_purple,
-                ChickenColors.RED => Constract.level_red,
-                _ => Constract.level_black,
+                ChickenColors.WHITE => Constract.Instance.level_white,
+                ChickenColors.YELLOW => Constract.Instance.level_yellow,
+                ChickenColors.GREEN => Constract.Instance.level_green,
+                ChickenColors.BLUE => Constract.Instance.level_blue,
+                ChickenColors.PURPLE => Constract.Instance.level_purple,
+                ChickenColors.RED => Constract.Instance.level_red,
+                _ => Constract.Instance.level_black,
             };
         }
 
@@ -242,10 +250,145 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
         }
         public void OnClick()
         {
+            GameManager.Instance.PlayButtonSound();
+
             rootParent.SetActive(false);
         }
     }
 
+    ```
+* 스킬 사용 후 재사용까지의 쿨다운 체크 및 밥주기/쓰다듬기를 지정된 쿨다운 시간만큼 사용하지 않을 시 애정도 감소 체크를 여러 곳에서 쿨다운 기능이 참조되므로 쿨다운관련 함수들 관리하기 위한 클래스 생성
+    *  간단하게 여러곳에서 사용할 수 있도록 static 메소드로 작성 
+    * CooldownManater.cs
+        ```C#
+        public class CooldownManager : MonoBehaviour
+        {
+            private const string DATE_FORMAT = "yyyyMMdd HH:mm:ss";
+
+            public static void SaveCooldown(string key)
+            {
+                PlayerPrefs.SetString(key, DateTime.Now.ToString(DATE_FORMAT));
+            }
+
+            /// <summary>
+            /// 현재 시간과 저장된 시간 간의 경과 시간을 계산하여 쿨타임 이상 여부를 반환하는 함수(쿨타임 지났다면 true, 아니면 false)
+            /// </summary>
+            /// <param name="key">저장된 시간 key</param>
+            /// <param name="coolDownSeconds">비교할 쿨타임 시간 초</param>
+            /// <param name="defaultValue">저장된 key값이 없을 때(저장된 시간이 없을 때) 반환할 기본 값</param>
+            public static bool IsCooldownElapsed(string key, int coolDownSeconds, bool defaultValue = true)
+            {
+                if (!PlayerPrefs.HasKey(key)) return defaultValue;
+      
+                DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+                return (DateTime.Now - savedTime).TotalSeconds >= coolDownSeconds;
+
+            }
+            /// <summary>
+            /// 현재 시간과 저장된 쿨다운 시간차를 초 단위로 반환하는 함수
+            /// </summary>
+            public static int GetDiffSecondsFromCurrentTime(string key)
+            {
+                if (!PlayerPrefs.HasKey(key)) return 0;
+
+                DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+                return Mathf.RoundToInt(((float)(DateTime.Now - savedTime).TotalSeconds));
+            }
+            /// <summary>
+            /// 스킬 발동 후 쿨다운 시간이 얼마나 남았는 지 반환하는 함수
+            /// </summary>
+            /// <param name="key">발동한 스킬의 키</param>
+            /// <param name="coolDownSeconds">비교할 쿨다운 값</param>
+            /// <returns></returns>
+            public static string GetRemainedCooldown(string key, int coolDownSeconds)
+            {
+                if (!PlayerPrefs.HasKey(key)) return "";
+
+                DateTime savedTime = StringToDateTime(PlayerPrefs.GetString(key));
+                return GetFormattedDifference((TimeSpan.FromSeconds(coolDownSeconds) - (DateTime.Now - savedTime)));
+            }
+
+            private static DateTime StringToDateTime(string str)
+            {
+                return DateTime.ParseExact(str, DATE_FORMAT, null);
+
+            }
+            private static string GetFormattedDifference(TimeSpan difference)
+            {
+                if (difference.TotalHours >= 1)
+                {
+                    return $"{difference.Hours:00}:{difference.Minutes:00}:{difference.Seconds:00}";
+                }
+                return $"{difference.Minutes:00}:{difference.Seconds:00}";
+            }
+        }
+
+        ```
+    * 사용하는 예시
+       ```c#
+           public void CreateFeed()
+           {
+                GameManager.Instance.PlayButtonSound();
+                //밥주기 스킬 재사용 쿨다운 체크
+                if (!CooldownManager.IsCooldownElapsed(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds))
+                {
+                    //만약 재사용 쿨다운 시간이 지나지 않았다면 남은 시간을 GetRemainedCooldown()로 가져와서 alert창에 표시
+                    OpenCooldownAlert(CooldownManager.GetRemainedCooldown(Constract.FEED_COOLTIME_KEY, Constract.Instance.feed_cooldown_seconds) + DEFAULT_COOLTIME_MESSAGE);
+                    return;
+                }
+
+                Instantiate(feedPrefab, chickenControll.transform.position, Quaternion.identity, chickenControll.transform);
+
+                gameObject.SetActive(false);
+           }
+       ```
+* 밥주기/쓰다듬기 스킬 사용 중 또 스킬을 사용하려고 할 때, 재사용 쿨다운이 지나지 않았을 때와 같이 사용자에게 스킬을 사용못한다는 안내 메세지를 위한 Alert창이 필요 => 코드에서 간단하게 메세지만 넘겨주면 보여주도록 하고 싶었음.
+    * Alert창 보이기 : Show() static 메소드로 활성화
+    * Alert창 닫기 : 공용X버튼 사용함(Xbutton.cs). 클릭 시 비활성화됨.
+    * Alert.cs
+    ```c#
+        public class Alert : MonoBehaviour
+        {
+            [SerializeField]
+            private TMP_Text tmpText;
+            private static Alert instance;
+
+
+            void Awake()
+            {
+                if (instance == null)
+                {
+                    instance = this;
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
+            }
+
+            void OnDisable()
+            {
+                instance.tmpText.text = "";
+
+            }
+
+            public static void Show(string message)
+            {
+                FindAnyObjectByType<Canvas>().transform.Find("Alert").gameObject.SetActive(true);
+                instance.tmpText.text = message;
+            }
+        }
+
+    ```
+    * 사용하는 예시
+    ```c#
+    
+    private void OpenCooldownAlert(string message)
+    {
+        Alert.Show(message);
+
+        gameObject.SetActive(false);
+    }
     ```
 * 닭이 주기적으로 랜덤의 위치로 이동되는 기능을 구현하기 위해 트래킹된 Plane정보들을 어떤 자료구조로 저장할 지 고민
     * 조건
@@ -266,6 +409,6 @@ AR 환경에서 닭을 키우는 힐링 미니 게임 제작하기!
         ```
     3. 랜덤으로 트래킹된 Plane들 중의 한 위치로 이동로 이동해야 하므로 정확한 위치로 이동하는 게 좋다고 판단해서 2번 **transform.position를 사용해서 구현하기로 결정**
 ## 나중에 고민해보고 코드 개선할 부분
-* 애니메이션 관리하는 스크립트에 skill 애니메이션 관련 메소드들 로직이 비슷한 부분이 많음(애니메이션 start/end 메소드) 부모클래스 만들어서 상속받아서 스킬애니메이션 자식클래스로 관리하는 쪽으로..?
+* 애니메이션 관리하는 스크립트에 skill 애니메이션 관련 메소드들 로직이 비슷한 부분이 많음(스킬 발동 시 애니메이션 start/ 스킬 종료 시 애니메이션 end 메소드) 부모클래스 만들어서 상속받아서 스킬애니메이션 자식클래스로 관리하는 쪽으로..?
 * 현재는 Alert창(스킬 쿨다운 안내창)이랑 Confirm(게임 종료확인창)이 한두개만 사용되어서 GameEndDialog.cs같은 스크립트(확장X)를 컴포넌트로 할당해서 사용하고 있는 데, 나중에 확장성을 고려하면 여러개의 confirm에서 사용하고 싶은 경우 공통의 confirm 스크립트 작성하는 것이 좋을 듯 
 * 모든 UI 버튼이 동일한 소리를 내는 데, 버튼 컨트롤러 스크립트를 생성해서 모든 UI버튼의 onclick함수, sound를 관리하는 것이 좋은 건지? 지금처럼 용도별로 사용되는 각각 스크립트(Alert, Menu 등등)에서 onclick 메소드 작성하고 sound를 출력하는 함수를 호출하는 것이 좋은 건지.. 
