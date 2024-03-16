@@ -21,7 +21,7 @@ public class HungryChat : MonoBehaviour
     void Update()
     {
         Transform chickenTransform = chickenControll.transform;
-        Vector3 newPos = chickenTransform.position + transform.up * 0.6f + transform.right * 0.35f;
+        Vector3 newPos = chickenTransform.position + chickenTransform.up * 0.6f + chickenTransform.right * -0.2f;
         transform.position = Camera.main.WorldToScreenPoint(newPos);
         ResizeUI();
     }
