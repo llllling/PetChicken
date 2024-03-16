@@ -26,11 +26,12 @@ public class ARTrackedManager : MonoBehaviour
         planeManager.planesChanged += OnTrackablesChanged;
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
+        planes.ForEach(plane => Destroy(plane));
         planeManager.planesChanged -= OnTrackablesChanged;
     }
-
+    
     public void OnTrackablesChanged(ARPlanesChangedEventArgs changes)
     {
         if (planes.Count > 0 && !IsCreateChicken)
